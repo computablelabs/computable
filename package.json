@@ -1,0 +1,27 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "description": "A Token that Powers Datamined transactions",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/datamined/contracts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/datamined/contracts/issues"
+  },
+  "homepage": "https://github.com/datamined/contracts#readme",
+  "dependencies": {
+    "lite-server": "^2.3.0",
+    "zeppelin-solidity": "^1.6.0"
+  }
+}
