@@ -6,6 +6,7 @@ contract TestDataCoin {
 
   // Just tests that DataCoin can be instantiated
   function testDataCoinCreation() public {
+    // This address is created in scripts/test.sh
     DataCoin datacoin = new DataCoin();
   }
 }
