@@ -53,6 +53,7 @@
   "dependencies": {
     "dotenv": "^4.0.0",
     "ethjs-abi": "^0.2.1",
+    "mocha": "^5.0.0",
     "testrpc": "0.0.1"
   }
 }
