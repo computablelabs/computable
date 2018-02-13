@@ -10,4 +10,4 @@ contract('Validator', function(accounts) {
       assert.equal(owner, accounts[0], "Owner isn't creator of validator");
     });
   });
-});
+}); 
