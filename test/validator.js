@@ -1,4 +1,4 @@
-// Specifically request an abstraction for DataCoin
+// Specifically request an abstraction for Validator 
 var Validator = artifacts.require("Validator");
 
 contract('Validator', function(accounts) {
