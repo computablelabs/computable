@@ -6,6 +6,8 @@ import "./Validator.sol";
 /**
  * @title DataMining 
  * @dev DataMining is the contract that controls how new data is mined. 
+ * Note that data mining is the process of having a quorum of
+ * validators authorize acceptance of a new datapoint.
  */
 contract DataMining {
   using SafeMath for uint256;
