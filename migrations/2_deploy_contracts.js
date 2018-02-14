@@ -5,5 +5,5 @@ var DataRegistry = artifacts.require("DataRegistry");
 module.exports = function(deployer) {
   deployer.deploy(DataCoin);
   deployer.deploy(Validator);
-  deployer.deploy(DataRegistry);
+  deployer.deploy(DataRegistry, "TestRegistry");
 }
