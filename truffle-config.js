@@ -2,7 +2,6 @@ require('dotenv').config();
 require('babel-register');
 require('babel-polyfill');
 
-// TODO(rbharath): Can these be removed?
 const HDWalletProvider = require('truffle-hdwallet-provider');
 
 const providerWithMnemonic = (mnemonic, rpcEndpoint) =>

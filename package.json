@@ -1,7 +1,7 @@
 {
   "name": "contracts",
   "version": "0.0.1",
-  "description": "Contracts implementing DataMined Protocol",
+  "description": "Contracts implementing Computable Protocol",
   "scripts": {
     "test": "scripts/test.sh",
     "console": "truffle console",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/datamined/contracts.git"
+    "url": "https://github.com/computablelabs/contracts.git"
   },
   "keywords": [
     "solidity",
@@ -17,14 +17,14 @@
     "smart",
     "contracts",
     "security",
-    "datamined"
+    "computable"
   ],
-  "author": "Bharath Ramsundar <bharath@datamined.io>",
+  "author": "Bharath Ramsundar <bharath@computable.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/datamined/contracts/issues"
+    "url": "https://github.com/computablelabs/contracts/issues"
   },
-  "homepage": "https://github.com/datamined/contracts",
+  "homepage": "https://github.com/computablelabs/contracts",
   "devDependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.18.0",
