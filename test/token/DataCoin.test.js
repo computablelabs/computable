@@ -1,17 +1,19 @@
 import assertRevert from '../helpers/assertRevert';
-const DataCoin = artifacts.require('DataCoinMock');
+const DataCoinMock = artifacts.require('BasicTokenMock');
 
 contract('StandardToken', function ([_, owner, recipient, anotherAccount]) {
   const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
   beforeEach(async function () {
-    this.token = await DataCoin.new(owner, 100);
+    this.token = await DataCoinMock.new(owner, 100);
   });
 
   describe('total supply', function () {
     it('returns the total amount of tokens', async function () {
-      const totalSupply = await this.token.totalSupply();
+      let totalSupply = await this.token.totalSupply();
 
+      console.log("totalSupply!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      console.log(totalSupply);
       assert.equal(totalSupply, 100);
     });
   });
