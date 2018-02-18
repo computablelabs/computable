@@ -1,5 +1,5 @@
 import assertRevert from '../helpers/assertRevert';
-const DataCoinMock = artifacts.require('BasicTokenMock');
+const DataCoinMock = artifacts.require('DataCoinMock');
 
 contract('StandardToken', function ([_, owner, recipient, anotherAccount]) {
   const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
