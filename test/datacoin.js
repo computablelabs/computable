@@ -1,47 +1,51 @@
 // Specifically request an abstraction for DataCoin
-var DataCoin = artifacts.require("DataCoin");
+var DataCoin = artifacts.require('DataCoin');
 
-contract('DataCoin', function(accounts) {
-  it("should put 10000 DataCoin in the first account", function() {
-    return DataCoin.deployed(accounts[0]).then(function(instance) {
+contract('DataCoin', function (accounts) {
+  it('should put 10000 DataCoin in the first account', function () {
+    return DataCoin.deployed(accounts[0]).then(function (instance) {
       return instance.balanceOf.call(accounts[0]);
-    }).then(function(balance) {
-      assert.equal(balance.valueOf(), 10000, "10000 wasn't in the first account");
+    }).then(function (balance) {
+      assert.equal(balance.valueOf(), 10000, '10000 wasn\'t in the first account');
     });
   });
-  it("should send coin correctly", function() {
+  it('should send coin correctly', function () {
     var data;
 
     // Get initial balances of first and second account.
-    var account_one = accounts[0];
-    var account_two = accounts[1];
+    var accountOne = accounts[0];
+    var accountTwo = accounts[1];
 
-    var account_one_starting_balance;
-    var account_two_starting_balance;
-    var account_one_ending_balance;
-    var account_two_ending_balance;
+    var accountOneStartingBalance;
+    var accountTwoStartingBalance;
+    var accountOneEndingBalance;
+    var accountTwoEndingBalance;
 
     var amount = 10;
 
-    return DataCoin.deployed().then(function(instance) {
+    return DataCoin.deployed().then(function (instance) {
       data = instance;
-      return data.balanceOf.call(account_one);
-    }).then(function(balance) {
-      account_one_starting_balance = balance.toNumber();
-      return data.balanceOf.call(account_two);
-    }).then(function(balance) {
-      account_two_starting_balance = balance.toNumber();
-      return data.transfer(account_two, amount, {from: account_one});
-    }).then(function() {
-      return data.balanceOf.call(account_one);
-    }).then(function(balance) {
-      account_one_ending_balance = balance.toNumber();
-      return data.balanceOf.call(account_two);
-    }).then(function(balance) {
-      account_two_ending_balance = balance.toNumber();
+      return data.balanceOf.call(accountOne);
+    }).then(function (balance) {
+      accountOneStartingBalance = balance.toNumber();
+      return data.balanceOf.call(accountTwo);
+    }).then(function (balance) {
+      accountTwoStartingBalance = balance.toNumber();
+      return data.transfer(accountTwo, amount, { from: accountOne });
+    }).then(function () {
+      return data.balanceOf.call(accountOne);
+    }).then(function (balance) {
+      accountOneEndingBalance = balance.toNumber();
+      return data.balanceOf.call(accountTwo);
+    }).then(function (balance) {
+      accountTwoEndingBalance = balance.toNumber();
 
-      assert.equal(account_one_ending_balance, account_one_starting_balance - amount, "Amount wasn't correctly taken from the sender");
-      assert.equal(account_two_ending_balance, account_two_starting_balance + amount, "Amount wasn't correctly sent to the receiver");
+      assert.equal(accountOneEndingBalance,
+        accountOneStartingBalance - amount,
+        'Amount wasn\'t correctly taken from the sender');
+      assert.equal(accountTwoEndingBalance,
+        accountTwoStartingBalance + amount,
+        'Amount wasn\'t correctly sent to the receiver');
     });
   });
 });
