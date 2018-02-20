@@ -3,6 +3,7 @@ pragma solidity ^0.4.18;
 import "./DataCoin.sol";
 import "./Validator.sol";
 
+
 /**
  * @title DataMining 
  * @dev DataMining is the contract that controls how new data is mined. 
@@ -21,7 +22,7 @@ contract DataMining {
   // TODO(rbharath): This is absolutely arbitrary and will likely
   // change.
   // Stake required for validators to be approved.
-  uint public VALIDATOR_STAKE = 100;
+  uint256 validatorStake_ = 100;
 
   // Contains the list of validators
   Validator[] public validators;
@@ -38,6 +39,13 @@ contract DataMining {
     require(_datacoin != address(0));
     wallet = _wallet;
     datacoin = _datacoin;
+  }
+
+  /**
+  * @dev stake required for validators 
+  */
+  function validatorStake() public view returns (uint256) {
+    return validatorStake_;
   }
 
 }

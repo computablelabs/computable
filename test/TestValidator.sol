@@ -4,6 +4,7 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/Validator.sol";
 
+
 contract TestValidator {
 
   // Just tests that validator can be instantiated
