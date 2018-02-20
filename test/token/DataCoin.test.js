@@ -11,9 +11,6 @@ contract('StandardToken', function ([_, owner, recipient, anotherAccount]) {
   describe('total supply', function () {
     it('returns the total amount of tokens', async function () {
       let totalSupply = await this.token.totalSupply();
-
-      console.log("totalSupply!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-      console.log(totalSupply);
       assert.equal(totalSupply, 100);
     });
   });
