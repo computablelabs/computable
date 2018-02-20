@@ -15,11 +15,11 @@ contract('Validator', function(accounts) {
 
   it("Owners should be able to record votes", function () {
     return Validator.deployed(accounts[0]).then(function(instance) {
-      meta = instance;
+      var meta = instance;
       meta.addVote("hello");
       return meta;
     }).then(function(instance) {
-      vote = instance.votes.call(0);
+      var vote = instance.votes.call(0);
       return vote; 
     }).then(function(vote) {
       assert.equal(vote, "hello");
