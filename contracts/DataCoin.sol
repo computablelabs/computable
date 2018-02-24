@@ -1,12 +1,11 @@
 pragma solidity ^0.4.18;
 
-//import "zeppelin-solidity/contracts/token/ERC20/BasicToken.sol";
+import "zeppelin-solidity/contracts/token/ERC20/BasicToken.sol";
 
 
-//contract DataCoin is BasicToken {
-contract DataCoin  {
+contract DataCoin is BasicToken {
 
-  //string public name = "DataCoin";
+  string public name = "DataCoin";
   string public symbol = "DC";
   // TODO(rbharath): This is absolutely arbitrary and will likely
   // change.
@@ -14,9 +13,8 @@ contract DataCoin  {
 
 
   function DataCoin() public {
-    //balances[msg.sender] = INITIAL_SUPPLY;
-    //totalSupply_ = INITIAL_SUPPLY;
-    INITIAL_SUPPLY = 10;
+    balances[msg.sender] = INITIAL_SUPPLY;
+    totalSupply_ = INITIAL_SUPPLY;
   }
 
 }
