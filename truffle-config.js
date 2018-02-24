@@ -7,8 +7,6 @@ const HDWalletProvider = require('truffle-hdwallet-provider');
 const providerWithMnemonic = (mnemonic, rpcEndpoint) =>
   new HDWalletProvider(mnemonic, rpcEndpoint);
 
-console.log(process.env.MNEMONIC);
-console.log(process.env.INFURA_ROPSTEN);
 const infuraProvider = network => providerWithMnemonic(
   process.env.MNEMONIC || '',
   `https://ropsten.infura.io/${process.env.INFURA_ROPSTEN}`
