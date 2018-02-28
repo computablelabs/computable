@@ -7,7 +7,7 @@ const fs = require('fs');
 //const config = JSON.parse(fs.readFileSync('./conf/config.json'));
 //const paramConfig = config.paramDefaults;
 
-const utils = require('../utils.js');
+const utils = require('./utils.js');
 
 contract('Registry', (accounts) => {
   describe('Function: apply', () => {
