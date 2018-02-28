@@ -5,26 +5,26 @@ const Eth = require('ethjs');
 const HttpProvider = require('ethjs-provider-http');
 const EthRPC = require('ethjs-rpc');
 const abi = require('ethereumjs-abi');
-const fs = require('fs');
+// const fs = require('fs');
 
 const ethRPC = new EthRPC(new HttpProvider('http://localhost:7545'));
 
-//const PLCRVoting = artifacts.require('PLCRVoting.sol');
-//const Parameterizer = artifacts.require('Parameterizer.sol');
+// const PLCRVoting = artifacts.require('PLCRVoting.sol');
+// const Parameterizer = artifacts.require('Parameterizer.sol');
 const DataRegistry = artifacts.require('DataRegistry.sol');
-const Token = artifacts.require('DataCoin.sol');
+// const Token = artifacts.require('DataCoin.sol');
 
-//const config = JSON.parse(fs.readFileSync('./conf/config.json'));
-//const paramConfig = config.paramDefaults;
+// const config = JSON.parse(fs.readFileSync('./conf/config.json'));
+// const paramConfig = config.paramDefaults;
 
 const BN = small => new Eth.BN(small.toString(10), 10);
 
 const utils = {
-  getVoting: async () => {
-    const registry = await DataRegistry.deployed();
-    //const votingAddr = await registry.voting.call();
-    //return PLCRVoting.at(votingAddr);
-  },
+  // getVoting: async () => {
+  //  const registry = await DataRegistry.deployed();
+  //  // const votingAddr = await registry.voting.call();
+  //  // return PLCRVoting.at(votingAddr);
+  // },
 
   increaseTime: async seconds =>
     new Promise((resolve, reject) => ethRPC.sendAsync({
@@ -50,23 +50,23 @@ const utils = {
     `0x${abi.soliditySHA3(['string'], [domain]).toString('hex')}`
   ),
 
-  approvePLCR: async (address, adtAmount) => {
-    const registry = await Registry.deployed();
-    const plcrAddr = await registry.voting.call();
-    const token = await Token.deployed();
-    await token.approve(plcrAddr, adtAmount, { from: address });
-  },
+  // approvePLCR: async (address, adtAmount) => {
+  //  const registry = await Registry.deployed();
+  //  const plcrAddr = await registry.voting.call();
+  //  const token = await Token.deployed();
+  //  await token.approve(plcrAddr, adtAmount, { from: address });
+  // },
 
   addToWhitelist: async (domain, deposit, actor) => {
-    const registry = await Registry.deployed();
+    const registry = await DataRegistry.deployed();
     await utils.as(actor, registry.apply, domain, deposit, '');
-    await utils.increaseTime(paramConfig.applyStageLength + 1);
+    // await utils.increaseTime(paramConfig.applyStageLength + 1);
     await utils.as(actor, registry.updateStatus, domain);
   },
 
   as: (actor, fn, ...args) => {
-    function detectSendObject(potentialSendObj) {
-      function hasOwnProperty(obj, prop) {
+    function detectSendObject (potentialSendObj) {
+      function hasOwnProperty (obj, prop) {
         const proto = obj.constructor.prototype;
         return (prop in obj) &&
           (!(prop in proto) || proto[prop] !== obj[prop]);
@@ -93,7 +93,7 @@ const utils = {
   ),
 
   getUnstakedDeposit: async (domain) => {
-    const registry = await Registry.deployed();
+    const registry = await DataRegistry.deployed();
     // get the struct in the mapping
     const listing = await registry.listings.call(domain);
     // get the unstaked deposit amount from the listing struct
@@ -102,7 +102,7 @@ const utils = {
   },
 
   challengeAndGetPollID: async (domain, actor) => {
-    const registry = await Registry.deployed();
+    const registry = await DataRegistry.deployed();
     const receipt = await utils.as(actor, registry.challenge, domain, '');
     return receipt.logs[0].args.pollID;
   },
@@ -118,17 +118,17 @@ const utils = {
 
   getReceiptValue: (receipt, arg) => receipt.logs[0].args[arg],
 
-  proposeReparamAndGetPropID: async (reParam, value, actor) => {
-    const parameterizer = await Parameterizer.deployed();
-    const receipt = await utils.as(actor, parameterizer.proposeReparameterization, reParam, value);
-    return receipt.logs[0].args.propID;
-  },
+  // proposeReparamAndGetPropID: async (reParam, value, actor) => {
+  //  const parameterizer = await Parameterizer.deployed();
+  //  const receipt = await utils.as(actor, parameterizer.proposeReparameterization, reParam, value);
+  //  return receipt.logs[0].args.propID;
+  // },
 
-  challengeReparamAndGetChallengeID: async (propID, actor) => {
-    const parameterizer = await Parameterizer.deployed();
-    const receipt = await utils.as(actor, parameterizer.challengeReparameterization, propID);
-    return receipt.logs[0].args.pollID;
-  },
+  // challengeReparamAndGetChallengeID: async (propID, actor) => {
+  //  const parameterizer = await Parameterizer.deployed();
+  //  const receipt = await utils.as(actor, parameterizer.challengeReparameterization, propID);
+  //  return receipt.logs[0].args.pollID;
+  // },
 
   divideAndGetWei: (numerator, denominator) => {
     const weiNumerator = Eth.toWei(BN(numerator), 'gwei');
