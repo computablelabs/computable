@@ -1,19 +1,19 @@
 /* eslint-env mocha */
 /* global assert contract artifacts */
-const Registry = artifacts.require('DataRegistry.sol');
+// const Registry = artifacts.require('DataRegistry.sol');
 
 // const fs = require('fs');
 
 // const config = JSON.parse(fs.readFileSync('./conf/config.json'));
 // const paramConfig = config.paramDefaults;
 
-const utils = require('./utils.js');
+// const utils = require('./utils.js');
 
 contract('Registry', (accounts) => {
   describe('Function: apply', () => {
-    const [applicant] = accounts;
+    // const [applicant] = accounts;
 
-    //it('should allow a new listing to apply', async () => {
+    // it('should allow a new listing to apply', async () => {
     //  const registry = await Registry.deployed();
     //  const listing = utils.getListingHash('nochallenge.net');
 
@@ -30,7 +30,6 @@ contract('Registry', (accounts) => {
     //  //  paramConfig.minDeposit.toString(10),
     //  //  'incorrect unstakedDeposit',
     //  // );
-    //});
 
     it('should not allow a listing to apply which has a pending application', async () => {
       // const registry = await Registry.deployed();
@@ -45,7 +44,7 @@ contract('Registry', (accounts) => {
       assert(true, 'Should always work');
     });
 
-    //it(
+    // it(
     //  'should add a listing to the whitelist which went unchallenged in its application period',
     //  async () => {
     //    const registry = await Registry.deployed();
@@ -55,7 +54,7 @@ contract('Registry', (accounts) => {
     //    const result = await registry.isWhitelisted.call(listing);
     //    assert.strictEqual(result, true, 'listing didn\'t get whitelisted');
     //  },
-    //);
+    // );
 
     it('should not allow a listing to apply which is already listed', async () => {
       // const registry = await Registry.deployed();
