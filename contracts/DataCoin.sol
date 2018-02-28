@@ -1,9 +1,9 @@
 pragma solidity ^0.4.18;
 
-import "zeppelin-solidity/contracts/token/ERC20/BasicToken.sol";
+import "zeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 
 
-contract DataCoin is BasicToken {
+contract DataCoin is StandardToken {
 
   string public name = "DataCoin";
   string public symbol = "DC";
