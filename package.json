@@ -58,6 +58,8 @@
   },
   "dependencies": {
     "dotenv": "^4.0.0",
+    "ethereumjs-abi": "0.6.5",
+    "ethereumjs-wallet": "0.6.0",
     "ethjs": "0.3.1",
     "ethjs-provider-http": "0.1.6",
     "ethjs-query": "0.3.2",
