@@ -22,6 +22,7 @@ coverageEnv
 
 # Dependency directory
 node_modules
+installed_contracts
 
 # Debug log from npm
 npm-debug.log
