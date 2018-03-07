@@ -1,1 +1,4 @@
 node_modules
+
+# Ignore the PLCRVoting contract
+contracts/PLCRVoting.sol
