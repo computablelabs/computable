@@ -1,0 +1,21 @@
+{
+  "package_name": "computable",
+  "version": "0.0.1",
+  "description": "A Decentralized Data Marketplace for Intelligent Agents",
+  "authors": [
+    "Bharath Ramsundar",
+    "Roger Chen",
+    "Alok Vasudev"
+  ],
+  "keywords": [
+    "AI",
+    "computable",
+    "tcr"
+  ],
+  "dependencies": {
+    "tokens": "1.0.0",
+    "dll": "1.0.4",
+    "attrstore": "1.0.0"
+  },
+  "license": "MIT"
+}

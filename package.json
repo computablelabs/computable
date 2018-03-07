@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "Contracts implementing Computable Protocol",
   "scripts": {
+    "compile": "truffle compile",
+    "install": "truffle install",
     "test": "scripts/test.sh",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
