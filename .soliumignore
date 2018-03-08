@@ -4,3 +4,5 @@ installed_contracts
 
 # Ignore the PLCRVoting contract
 contracts/PLCRVoting.sol
+# Ignore the Parameterizer contract
+contracts/Parameterizer.sol
