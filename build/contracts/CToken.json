@@ -1,0 +1,383 @@
+{
+  "contractName": "CToken",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_spender",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "name": "_spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "name": "remaining",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "_spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "/**\n * A placeholder token that, for now simply serves as a lever to force the\n * tokens/eip20/EIP20 to build and be available to the js repo\n */\n\npragma solidity ^0.4.11;\n\nimport \"tokens/eip20/EIP20.sol\";\n\n\ncontract CToken is EIP20 {\n\n}\n",
+  "sourcePath": "/Users/rrobbins/Github/computable/contracts/c-token.sol",
+  "ast": {
+    "absolutePath": "/Users/rrobbins/Github/computable/contracts/c-token.sol",
+    "exportedSymbols": {
+      "CToken": [
+        995
+      ]
+    },
+    "id": 996,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 991,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".11"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "147:24:1"
+      },
+      {
+        "absolutePath": "tokens/eip20/EIP20.sol",
+        "file": "tokens/eip20/EIP20.sol",
+        "id": 992,
+        "nodeType": "ImportDirective",
+        "scope": 996,
+        "sourceUnit": 4691,
+        "src": "173:32:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": [],
+            "baseName": {
+              "contractScope": null,
+              "id": 993,
+              "name": "EIP20",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 4690,
+              "src": "227:5:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_EIP20_$4690",
+                "typeString": "contract EIP20"
+              }
+            },
+            "id": 994,
+            "nodeType": "InheritanceSpecifier",
+            "src": "227:5:1"
+          }
+        ],
+        "contractDependencies": [
+          4690,
+          4756
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 995,
+        "linearizedBaseContracts": [
+          995,
+          4690,
+          4756
+        ],
+        "name": "CToken",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 996,
+        "src": "208:29:1"
+      }
+    ],
+    "src": "147:91:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/rrobbins/Github/computable/contracts/c-token.sol",
+    "exportedSymbols": {
+      "CToken": [
+        995
+      ]
+    },
+    "id": 996,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 991,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".11"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "147:24:1"
+      },
+      {
+        "absolutePath": "tokens/eip20/EIP20.sol",
+        "file": "tokens/eip20/EIP20.sol",
+        "id": 992,
+        "nodeType": "ImportDirective",
+        "scope": 996,
+        "sourceUnit": 4691,
+        "src": "173:32:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": [],
+            "baseName": {
+              "contractScope": null,
+              "id": 993,
+              "name": "EIP20",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 4690,
+              "src": "227:5:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_EIP20_$4690",
+                "typeString": "contract EIP20"
+              }
+            },
+            "id": 994,
+            "nodeType": "InheritanceSpecifier",
+            "src": "227:5:1"
+          }
+        ],
+        "contractDependencies": [
+          4690,
+          4756
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 995,
+        "linearizedBaseContracts": [
+          995,
+          4690,
+          4756
+        ],
+        "name": "CToken",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 996,
+        "src": "208:29:1"
+      }
+    ],
+    "src": "147:91:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.21+commit.dfe3193c.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-04-24T23:01:16.650Z"
+}
