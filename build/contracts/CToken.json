@@ -222,19 +222,19 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "/**\n * A placeholder token that, for now simply serves as a lever to force the\n * tokens/eip20/EIP20 to build and be available to the js repo\n */\n\npragma solidity ^0.4.11;\n\nimport \"tokens/eip20/EIP20.sol\";\n\n\ncontract CToken is EIP20 {\n\n}\n",
-  "sourcePath": "/Users/rrobbins/Github/computable/contracts/c-token.sol",
+  "sourcePath": "/home/rob/Github/computable/contracts/C-Token.sol",
   "ast": {
-    "absolutePath": "/Users/rrobbins/Github/computable/contracts/c-token.sol",
+    "absolutePath": "/home/rob/Github/computable/contracts/C-Token.sol",
     "exportedSymbols": {
       "CToken": [
-        995
+        5
       ]
     },
-    "id": 996,
+    "id": 6,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 991,
+        "id": 1,
         "literals": [
           "solidity",
           "^",
@@ -242,16 +242,16 @@
           ".11"
         ],
         "nodeType": "PragmaDirective",
-        "src": "147:24:1"
+        "src": "147:24:0"
       },
       {
         "absolutePath": "tokens/eip20/EIP20.sol",
         "file": "tokens/eip20/EIP20.sol",
-        "id": 992,
+        "id": 2,
         "nodeType": "ImportDirective",
-        "scope": 996,
-        "sourceUnit": 4691,
-        "src": "173:32:1",
+        "scope": 6,
+        "sourceUnit": 3701,
+        "src": "173:32:0",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -261,55 +261,55 @@
             "arguments": [],
             "baseName": {
               "contractScope": null,
-              "id": 993,
+              "id": 3,
               "name": "EIP20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4690,
-              "src": "227:5:1",
+              "referencedDeclaration": 3700,
+              "src": "227:5:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_EIP20_$4690",
+                "typeIdentifier": "t_contract$_EIP20_$3700",
                 "typeString": "contract EIP20"
               }
             },
-            "id": 994,
+            "id": 4,
             "nodeType": "InheritanceSpecifier",
-            "src": "227:5:1"
+            "src": "227:5:0"
           }
         ],
         "contractDependencies": [
-          4690,
-          4756
+          3700,
+          3766
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 995,
+        "id": 5,
         "linearizedBaseContracts": [
-          995,
-          4690,
-          4756
+          5,
+          3700,
+          3766
         ],
         "name": "CToken",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 996,
-        "src": "208:29:1"
+        "scope": 6,
+        "src": "208:29:0"
       }
     ],
-    "src": "147:91:1"
+    "src": "147:91:0"
   },
   "legacyAST": {
-    "absolutePath": "/Users/rrobbins/Github/computable/contracts/c-token.sol",
+    "absolutePath": "/home/rob/Github/computable/contracts/C-Token.sol",
     "exportedSymbols": {
       "CToken": [
-        995
+        5
       ]
     },
-    "id": 996,
+    "id": 6,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 991,
+        "id": 1,
         "literals": [
           "solidity",
           "^",
@@ -317,16 +317,16 @@
           ".11"
         ],
         "nodeType": "PragmaDirective",
-        "src": "147:24:1"
+        "src": "147:24:0"
       },
       {
         "absolutePath": "tokens/eip20/EIP20.sol",
         "file": "tokens/eip20/EIP20.sol",
-        "id": 992,
+        "id": 2,
         "nodeType": "ImportDirective",
-        "scope": 996,
-        "sourceUnit": 4691,
-        "src": "173:32:1",
+        "scope": 6,
+        "sourceUnit": 3701,
+        "src": "173:32:0",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -336,42 +336,42 @@
             "arguments": [],
             "baseName": {
               "contractScope": null,
-              "id": 993,
+              "id": 3,
               "name": "EIP20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4690,
-              "src": "227:5:1",
+              "referencedDeclaration": 3700,
+              "src": "227:5:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_EIP20_$4690",
+                "typeIdentifier": "t_contract$_EIP20_$3700",
                 "typeString": "contract EIP20"
               }
             },
-            "id": 994,
+            "id": 4,
             "nodeType": "InheritanceSpecifier",
-            "src": "227:5:1"
+            "src": "227:5:0"
           }
         ],
         "contractDependencies": [
-          4690,
-          4756
+          3700,
+          3766
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 995,
+        "id": 5,
         "linearizedBaseContracts": [
-          995,
-          4690,
-          4756
+          5,
+          3700,
+          3766
         ],
         "name": "CToken",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 996,
-        "src": "208:29:1"
+        "scope": 6,
+        "src": "208:29:0"
       }
     ],
-    "src": "147:91:1"
+    "src": "147:91:0"
   },
   "compiler": {
     "name": "solc",
@@ -379,5 +379,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-04-24T23:01:16.650Z"
+  "updatedAt": "2018-05-01T00:13:26.677Z"
 }
