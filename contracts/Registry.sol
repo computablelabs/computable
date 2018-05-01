@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 import "tokens/eip20/EIP20Interface.sol";
-import "./parameterizer.sol";
+import "./Parameterizer.sol";
 import "plcrvoting/PLCRVoting.sol";
 import "zeppelin/math/SafeMath.sol";
 
