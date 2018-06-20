@@ -28,7 +28,9 @@
   "homepage": "https://github.com/computablelabs/computable",
   "devDependencies": {
     "solium": "^1.1.2",
-    "truffle": "^4.1.6"
+    "truffle": "^4.1.12"
   },
-  "dependencies": {}
+  "dependencies": {
+    "solc": "^0.4.24"
+  }
 }

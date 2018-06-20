@@ -3,7 +3,7 @@
  * tokens/eip20/EIP20 to build and be available to the js repo
  */
 
-pragma solidity ^0.4.11;
+pragma solidity 0.4.24;
 
 import "tokens/eip20/EIP20.sol";
 
