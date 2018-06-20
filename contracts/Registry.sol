@@ -215,7 +215,7 @@ contract Registry {
     uint commitEndDate;
     uint revealEndDate;
     (commitEndDate, revealEndDate,) = voting.pollMap(pollID);
-
+    
     _Challenge(_listingHash, pollID, _data, commitEndDate, revealEndDate, msg.sender);
     return pollID;
   }

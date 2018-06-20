@@ -191,7 +191,7 @@ contract Parameterizer {
     uint commitEndDate;
     uint revealEndDate;
     (commitEndDate, revealEndDate,) = voting.pollMap(pollID);
-
+    
     emit _NewChallenge(_propID, pollID, commitEndDate, revealEndDate, msg.sender);
     return pollID;
   }
