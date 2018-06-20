@@ -188,8 +188,10 @@ contract Parameterizer {
     //take tokens from challenger
     require(token.transferFrom(msg.sender, this, deposit));
 
-    var (commitEndDate, revealEndDate,) = voting.pollMap(pollID);
-
+    uint commitEndDate;
+    uint revealEndDate;
+    (commitEndDate, revealEndDate,) = voting.pollMap(pollID);
+    
     emit _NewChallenge(_propID, pollID, commitEndDate, revealEndDate, msg.sender);
     return pollID;
   }
@@ -381,4 +383,3 @@ contract Parameterizer {
     params[keccak256(_name)] = _value;
   }
 }
-
