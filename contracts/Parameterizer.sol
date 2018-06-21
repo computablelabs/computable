@@ -128,10 +128,10 @@ contract Parameterizer {
   */
   function proposeReparameterization(string _name, uint _value) public returns (bytes32) {
     uint deposit = get("pMinDeposit");
-    bytes32 propID = keccak256(_name, _value);
+    bytes32 propID = keccak256(abi.encodePacked(_name, _value));
 
-    if (keccak256(_name) == keccak256("dispensationPct") ||
-       keccak256(_name) == keccak256("pDispensationPct")) {
+    if (keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked("dispensationPct")) ||
+       keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked("pDispensationPct"))) {
       require(_value <= 100);
     }
 
@@ -347,7 +347,7 @@ contract Parameterizer {
   @param _name the key whose value is to be determined
   */
   function get(string _name) public view returns (uint value) {
-    return params[keccak256(_name)];
+    return params[keccak256(abi.encodePacked(_name))];
   }
 
   /**
@@ -407,6 +407,6 @@ contract Parameterizer {
   @param _value the value to set the param to be set
   */
   function set(string _name, uint _value) private {
-    params[keccak256(_name)] = _value;
+    params[keccak256(abi.encodePacked(_name))] = _value;
   }
 }
