@@ -1,8 +1,8 @@
 pragma solidity 0.4.24;
 
-import "plcrvoting/PLCRVoting.sol";
-import "tokens/eip20/EIP20Interface.sol";
-import "zeppelin/math/SafeMath.sol";
+import "./PLCRVoting.sol";
+import "./ERC20.sol";
+import "./SafeMath.sol";
 
 
 contract Parameterizer {
@@ -58,7 +58,7 @@ contract Parameterizer {
   mapping(bytes32 => ParamProposal) public proposals;
 
   // Global Variables
-  EIP20Interface public token;
+  ERC20 public token;
   PLCRVoting public voting;
   uint public PROCESSBY = 604800; // 7 days
 
@@ -83,7 +83,7 @@ contract Parameterizer {
   @param _voteQuorum       type of majority out of 100 necessary for vote success
   @param _pVoteQuorum      type of majority out of 100 necessary for vote success in parameterizer
   */
-  function Parameterizer(
+  constructor(
     address _tokenAddr,
     address _plcrAddr,
     uint _minDeposit,
@@ -100,7 +100,7 @@ contract Parameterizer {
     uint _pVoteQuorum
     ) public
   {
-    token = EIP20Interface(_tokenAddr);
+    token = ERC20(_tokenAddr);
     voting = PLCRVoting(_plcrAddr);
 
     set("minDeposit", _minDeposit);
@@ -128,10 +128,10 @@ contract Parameterizer {
   */
   function proposeReparameterization(string _name, uint _value) public returns (bytes32) {
     uint deposit = get("pMinDeposit");
-    bytes32 propID = keccak256(_name, _value);
+    bytes32 propID = keccak256(abi.encodePacked(_name, _value));
 
-    if (keccak256(_name) == keccak256("dispensationPct") ||
-       keccak256(_name) == keccak256("pDispensationPct")) {
+    if (keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked("dispensationPct")) ||
+       keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked("pDispensationPct"))) {
       require(_value <= 100);
     }
 
@@ -154,7 +154,15 @@ contract Parameterizer {
 
     require(token.transferFrom(msg.sender, this, deposit)); // escrow tokens (deposit amt)
 
-    emit _ReparameterizationProposal(_name, _value, propID, deposit, proposals[propID].appExpiry, msg.sender);
+    emit _ReparameterizationProposal(
+      _name,
+      _value,
+      propID,
+      deposit,
+      proposals[propID].appExpiry,
+      msg.sender
+    );
+
     return propID;
   }
 
@@ -191,8 +199,15 @@ contract Parameterizer {
     uint commitEndDate;
     uint revealEndDate;
     (commitEndDate, revealEndDate,) = voting.pollMap(pollID);
-    
-    emit _NewChallenge(_propID, pollID, commitEndDate, revealEndDate, msg.sender);
+
+    emit _NewChallenge(
+      _propID,
+      pollID,
+      commitEndDate,
+      revealEndDate,
+      msg.sender
+    );
+
     return pollID;
   }
 
@@ -332,7 +347,7 @@ contract Parameterizer {
   @param _name the key whose value is to be determined
   */
   function get(string _name) public view returns (uint value) {
-    return params[keccak256(_name)];
+    return params[keccak256(abi.encodePacked(_name))];
   }
 
   /**
@@ -366,10 +381,22 @@ contract Parameterizer {
       if (prop.processBy > now) {
         set(prop.name, prop.value);
       }
-      emit _ChallengeFailed(_propID, prop.challengeID, challenge.rewardPool, challenge.winningTokens);
+      emit _ChallengeFailed(
+        _propID,
+        prop.challengeID,
+        challenge.rewardPool,
+        challenge.winningTokens
+      );
+
       require(token.transfer(prop.owner, reward));
     } else { // The challenge succeeded or nobody voted
-      emit _ChallengeSucceeded(_propID, prop.challengeID, challenge.rewardPool, challenge.winningTokens);
+      emit _ChallengeSucceeded(
+        _propID,
+        prop.challengeID,
+        challenge.rewardPool,
+        challenge.winningTokens
+      );
+
       require(token.transfer(challenges[prop.challengeID].challenger, reward));
     }
   }
@@ -380,6 +407,6 @@ contract Parameterizer {
   @param _value the value to set the param to be set
   */
   function set(string _name, uint _value) private {
-    params[keccak256(_name)] = _value;
+    params[keccak256(abi.encodePacked(_name))] = _value;
   }
 }

@@ -9,6 +9,5 @@ We actively welcome bug reports, suggestions, and code contributions!
 ### Setup
 * git clone...
 * `npm install`
-* `npm run truffle:install`
 * `npm run truffle:compile`
 * `npm run lint:sol`
