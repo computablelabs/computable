@@ -125,7 +125,7 @@ contract Registry {
 
     require(listing.owner == msg.sender);
 
-    listing.unstakedDeposit += _amount;
+    listing.unstakedDeposit = listing.unstakedDeposit.add(_amount);
     require(token.transferFrom(msg.sender, this, _amount));
 
     emit _Deposit(
@@ -146,9 +146,9 @@ contract Registry {
 
     require(listing.owner == msg.sender);
     require(_amount <= listing.unstakedDeposit);
-    require(listing.unstakedDeposit - _amount >= parameterizer.get("minDeposit"));
+    require(listing.unstakedDeposit.sub(_amount) >= parameterizer.get("minDeposit"));
 
-    listing.unstakedDeposit -= _amount;
+    listing.unstakedDeposit = listing.unstakedDeposit.sub(_amount);
     require(token.transfer(msg.sender, _amount));
 
     emit _Withdrawal(
@@ -214,7 +214,7 @@ contract Registry {
 
     challenges[pollID] = Challenge({
       challenger: msg.sender,
-      rewardPool: ((100 - parameterizer.get("dispensationPct")) * minDeposit) / 100,
+      rewardPool: uint(100).sub(parameterizer.get("dispensationPct")).mul(minDeposit).div(100),
       stake: minDeposit,
       resolved: false,
       totalTokens: 0
@@ -224,7 +224,7 @@ contract Registry {
     listing.challengeID = pollID;
 
     // Locks tokens for listingHash during challenge
-    listing.unstakedDeposit -= minDeposit;
+    listing.unstakedDeposit = listing.unstakedDeposit.sub(minDeposit);
 
     // Takes tokens from challenger
     require(token.transferFrom(msg.sender, this, minDeposit));
@@ -280,8 +280,8 @@ contract Registry {
 
     // Subtracts the voter's information to preserve the participation ratios
     // of other voters compared to the remaining pool of rewards
-    challenges[_challengeID].totalTokens -= voterTokens;
-    challenges[_challengeID].rewardPool -= reward;
+    challenges[_challengeID].totalTokens = challenges[_challengeID].totalTokens.sub(voterTokens);
+    challenges[_challengeID].rewardPool = challenges[_challengeID].rewardPool.sub(reward);
 
     // Ensures a voter cannot claim tokens again
     challenges[_challengeID].tokenClaims[msg.sender] = true;
@@ -308,7 +308,7 @@ contract Registry {
     uint totalTokens = challenges[_challengeID].totalTokens;
     uint rewardPool = challenges[_challengeID].rewardPool;
     uint voterTokens = voting.getNumPassingTokens(_voter, _challengeID, _salt);
-    return (voterTokens * rewardPool) / totalTokens;
+    return voterTokens.mul(rewardPool).div(totalTokens);
   }
 
   /**
@@ -383,10 +383,10 @@ contract Registry {
 
     // Edge case, nobody voted, give all tokens to the challenger.
     if (voting.getTotalNumberOfTokensForWinningOption(_challengeID) == 0) {
-      return 2 * challenges[_challengeID].stake;
+      return uint(2).mul(challenges[_challengeID].stake);
     }
 
-    return (2 * challenges[_challengeID].stake) - challenges[_challengeID].rewardPool;
+    return uint(2).mul(challenges[_challengeID].stake).sub(challenges[_challengeID].rewardPool);
   }
 
   /**
@@ -424,7 +424,7 @@ contract Registry {
     if (voting.isPassed(challengeID)) {
       whitelistApplication(_listingHash);
       // Unlock stake so that it can be retrieved by the applicant
-      listings[_listingHash].unstakedDeposit += reward;
+      listings[_listingHash].unstakedDeposit = listings[_listingHash].unstakedDeposit.add(reward);
 
       emit _ChallengeFailed(
         _listingHash,

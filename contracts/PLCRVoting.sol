@@ -80,7 +80,7 @@ contract PLCRVoting {
   */
   function requestVotingRights(uint _numTokens) external {
     require(token.balanceOf(msg.sender) >= _numTokens);
-    voteTokenBalance[msg.sender] += _numTokens;
+    voteTokenBalance[msg.sender] = voteTokenBalance[msg.sender].add(_numTokens);
     require(token.transferFrom(msg.sender, this, _numTokens));
     emit _VotingRightsGranted(_numTokens, msg.sender);
   }
@@ -92,7 +92,7 @@ contract PLCRVoting {
   function withdrawVotingRights(uint _numTokens) external {
     uint availableTokens = voteTokenBalance[msg.sender].sub(getLockedTokens(msg.sender));
     require(availableTokens >= _numTokens);
-    voteTokenBalance[msg.sender] -= _numTokens;
+    voteTokenBalance[msg.sender] = voteTokenBalance[msg.sender].sub(_numTokens);
     require(token.transfer(msg.sender, _numTokens));
     emit _VotingRightsWithdrawn(_numTokens, msg.sender);
   }
@@ -196,9 +196,9 @@ contract PLCRVoting {
     uint numTokens = getNumTokens(msg.sender, _pollID);
 
     if (_voteOption == 1) {// apply numTokens to appropriate poll choice
-      pollMap[_pollID].votesFor += numTokens;
+      pollMap[_pollID].votesFor = pollMap[_pollID].votesFor.add(numTokens);
     } else {
-      pollMap[_pollID].votesAgainst += numTokens;
+      pollMap[_pollID].votesAgainst = pollMap[_pollID].votesAgainst.add(numTokens);
     }
 
     dllMap[msg.sender].remove(_pollID); // remove the node referring to this vote upon reveal
@@ -242,7 +242,7 @@ contract PLCRVoting {
   @param _revealDuration Length of desired reveal period in seconds
   */
   function startPoll(uint _voteQuorum, uint _commitDuration, uint _revealDuration) public returns (uint pollID) {
-    pollNonce = pollNonce + 1;
+    pollNonce = pollNonce.add(1);
 
     uint commitEndDate = block.timestamp.add(_commitDuration);
     uint revealEndDate = commitEndDate.add(_revealDuration);
@@ -275,7 +275,7 @@ contract PLCRVoting {
     require(pollEnded(_pollID));
 
     Poll memory poll = pollMap[_pollID];
-    return (100 * poll.votesFor) > (poll.voteQuorum * (poll.votesFor + poll.votesAgainst));
+    return (poll.votesFor.mul(100)) > (poll.voteQuorum.mul(poll.votesFor.add(poll.votesAgainst)));
   }
 
   // ----------------

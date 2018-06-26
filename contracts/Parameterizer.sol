@@ -270,8 +270,8 @@ contract Parameterizer {
 
     // subtract voter's information to preserve the participation ratios of other voters
     // compared to the remaining pool of rewards
-    challenges[_challengeID].winningTokens -= voterTokens;
-    challenges[_challengeID].rewardPool -= reward;
+    challenges[_challengeID].winningTokens = challenges[_challengeID].winningTokens.sub(voterTokens);
+    challenges[_challengeID].rewardPool = challenges[_challengeID].rewardPool.sub(reward);
 
     // ensures a voter cannot claim tokens again
     challenges[_challengeID].tokenClaims[msg.sender] = true;
@@ -297,7 +297,7 @@ contract Parameterizer {
     uint winningTokens = challenges[_challengeID].winningTokens;
     uint rewardPool = challenges[_challengeID].rewardPool;
     uint voterTokens = voting.getNumPassingTokens(_voter, _challengeID, _salt);
-    return (voterTokens * rewardPool) / winningTokens;
+    return voterTokens.mul(rewardPool).div(winningTokens);
   }
 
   /**
@@ -336,10 +336,10 @@ contract Parameterizer {
   function challengeWinnerReward(uint _challengeID) public view returns (uint) {
     if (voting.getTotalNumberOfTokensForWinningOption(_challengeID) == 0) {
       // Edge case, nobody voted, give all tokens to the challenger.
-      return 2 * challenges[_challengeID].stake;
+      return challenges[_challengeID].stake.mul(2);
     }
 
-    return (2 * challenges[_challengeID].stake) - challenges[_challengeID].rewardPool;
+    return (challenges[_challengeID].stake.mul(2)).sub(challenges[_challengeID].rewardPool);
   }
 
   /**
