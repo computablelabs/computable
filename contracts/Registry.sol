@@ -32,7 +32,8 @@ contract Registry {
     bool whitelisted;       // Indicates registry status
     address owner;          // Owner of Listing
     uint unstakedDeposit;   // Number of tokens in the listing not locked in a challenge
-    uint challengeID;       // Corresponds to a PollID in PLCRVoting
+    uint challengeID;
+    string data;       // Corresponds to a PollID in PLCRVoting
   }
 
   struct Challenge {
@@ -102,6 +103,8 @@ contract Registry {
     // Sets apply stage end time
     listing.applicationExpiry = block.timestamp.add(parameterizer.get("applyStageLen"));
     listing.unstakedDeposit = _amount;
+    // add data
+    listing.data = _data;
 
     // Transfers tokens from user to Registry contract
     require(token.transferFrom(listing.owner, this, _amount));
@@ -343,6 +346,9 @@ contract Registry {
     return listings[_listingHash].whitelisted;
   }
 
+  function getData(bytes32 _listingHash) view public returns(string data) {
+    return listings[_listingHash].data;
+  }
   /**
   @dev                Returns true if apply was called for this listingHash
   @param _listingHash The listingHash whose status is to be examined
