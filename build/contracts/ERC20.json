@@ -180,9 +180,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity 0.4.24;\n\nimport \"./ERC20Basic.sol\";\n\n\n/**\n * @title ERC20 interface\n * @dev see https://github.com/ethereum/EIPs/issues/20\n */\ncontract ERC20 is ERC20Basic {\n  function allowance(address owner, address spender)\n    public view returns (uint256);\n\n  function transferFrom(address from, address to, uint256 value)\n    public returns (bool);\n\n  function approve(address spender, uint256 value) public returns (bool);\n  event Approval(\n    address indexed owner,\n    address indexed spender,\n    uint256 value\n  );\n}\n",
-  "sourcePath": "/home/bharath/computable/contracts/ERC20.sol",
+  "sourcePath": "/home/rob/github/computable/contracts/ERC20.sol",
   "ast": {
-    "absolutePath": "/home/bharath/computable/contracts/ERC20.sol",
+    "absolutePath": "/home/rob/github/computable/contracts/ERC20.sol",
     "exportedSymbols": {
       "ERC20": [
         528
@@ -202,7 +202,7 @@
         "src": "0:23:4"
       },
       {
-        "absolutePath": "/home/bharath/computable/contracts/ERC20Basic.sol",
+        "absolutePath": "/home/rob/github/computable/contracts/ERC20Basic.sol",
         "file": "./ERC20Basic.sol",
         "id": 488,
         "nodeType": "ImportDirective",
@@ -704,7 +704,7 @@
     "src": "0:529:4"
   },
   "legacyAST": {
-    "absolutePath": "/home/bharath/computable/contracts/ERC20.sol",
+    "absolutePath": "/home/rob/github/computable/contracts/ERC20.sol",
     "exportedSymbols": {
       "ERC20": [
         528
@@ -724,7 +724,7 @@
         "src": "0:23:4"
       },
       {
-        "absolutePath": "/home/bharath/computable/contracts/ERC20Basic.sol",
+        "absolutePath": "/home/rob/github/computable/contracts/ERC20Basic.sol",
         "file": "./ERC20Basic.sol",
         "id": 488,
         "nodeType": "ImportDirective",
@@ -1231,5 +1231,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-06-26T02:58:22.315Z"
+  "updatedAt": "2018-09-07T23:45:43.385Z"
 }

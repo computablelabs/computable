@@ -85,9 +85,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity 0.4.24;\n\n\n/**\n * @title ERC20Basic\n * @dev Simpler version of ERC20 interface\n * See https://github.com/ethereum/EIPs/issues/179\n */\ncontract ERC20Basic {\n  function totalSupply() public view returns (uint256);\n  function balanceOf(address who) public view returns (uint256);\n  function transfer(address to, uint256 value) public returns (bool);\n  event Transfer(address indexed from, address indexed to, uint256 value);\n}\n",
-  "sourcePath": "/home/bharath/computable/contracts/ERC20Basic.sol",
+  "sourcePath": "/home/rob/github/computable/contracts/ERC20Basic.sol",
   "ast": {
-    "absolutePath": "/home/bharath/computable/contracts/ERC20Basic.sol",
+    "absolutePath": "/home/rob/github/computable/contracts/ERC20Basic.sol",
     "exportedSymbols": {
       "ERC20Basic": [
         560
@@ -471,7 +471,7 @@
     "src": "0:439:5"
   },
   "legacyAST": {
-    "absolutePath": "/home/bharath/computable/contracts/ERC20Basic.sol",
+    "absolutePath": "/home/rob/github/computable/contracts/ERC20Basic.sol",
     "exportedSymbols": {
       "ERC20Basic": [
         560
@@ -860,5 +860,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-06-26T02:58:22.315Z"
+  "updatedAt": "2018-09-07T23:45:43.385Z"
 }
