@@ -12,12 +12,12 @@ contract Parameterizer {
   // ------
 
   event _ReparameterizationProposal(string name, uint value, bytes32 propID, uint deposit, uint appEndDate, address indexed proposer);
-  event _NewChallenge(bytes32 indexed propID, uint challengeID, uint commitEndDate, uint revealEndDate, address indexed challenger);
+  event _NewChallenge(bytes32 indexed propID, uint id, uint commitEndDate, uint revealEndDate, address indexed challenger);
   event _ProposalAccepted(bytes32 indexed propID, string name, uint value);
   event _ProposalExpired(bytes32 indexed propID);
-  event _ChallengeSucceeded(bytes32 indexed propID, uint indexed challengeID, uint rewardPool, uint totalTokens);
-  event _ChallengeFailed(bytes32 indexed propID, uint indexed challengeID, uint rewardPool, uint totalTokens);
-  event _RewardClaimed(uint indexed challengeID, uint reward, address indexed voter);
+  event _ChallengeSucceeded(bytes32 indexed propID, uint indexed id, uint rewardPool, uint totalTokens);
+  event _ChallengeFailed(bytes32 indexed propID, uint indexed id, uint rewardPool, uint totalTokens);
+  event _RewardClaimed(uint indexed id, uint reward, address indexed voter);
 
 
   // ------
@@ -28,7 +28,7 @@ contract Parameterizer {
 
   struct ParamProposal {
     uint appExpiry;
-    uint challengeID;
+    uint challenge;
     uint deposit;
     string name;
     address owner;
@@ -42,7 +42,7 @@ contract Parameterizer {
     bool resolved;          // indication of if challenge is resolved
     uint stake;             // number of tokens at risk for either party during challenge
     uint winningTokens;     // (remaining) amount of tokens used for voting by the winning side
-    mapping(address => bool) tokenClaims;
+    mapping(address => bool) rewardsClaimed;
   }
 
   // ------
@@ -51,7 +51,7 @@ contract Parameterizer {
 
   mapping(bytes32 => uint) public params;
 
-  // maps challengeIDs to associated challenge data
+  // maps ids to associated challenge data
   mapping(uint => Challenge) public challenges;
 
   // maps pollIDs to intended data change if poll passes
@@ -141,7 +141,7 @@ contract Parameterizer {
     // attach name and value to pollID
     proposals[propID] = ParamProposal({
       appExpiry: now.add(get("pApplyStageLen")),
-      challengeID: 0,
+      challenge: 0,
       deposit: deposit,
       name: _name,
       owner: msg.sender,
@@ -168,22 +168,22 @@ contract Parameterizer {
 
   /**
   @notice challenge the provided proposal ID, and put tokens at stake to do so.
-  @param _propID the proposal ID to challenge
+  @param _propID the proposal ID to challenge TODO this is not an ID but a hash - in v2 change to `hash`
   */
-  function challengeReparameterization(bytes32 _propID) public returns (uint challengeID) {
+  function challengeReparameterization(bytes32 _propID) public returns (uint id) {
     ParamProposal memory prop = proposals[_propID];
     uint deposit = prop.deposit;
 
-    require(propExists(_propID) && prop.challengeID == 0);
+    require(propExists(_propID) && prop.challenge == 0);
 
-    //start poll
-    uint pollID = voting.startPoll(
+    //start poll, uint declared as return
+    id = voting.startPoll(
       get("pVoteQuorum"),
       get("pCommitStageLen"),
       get("pRevealStageLen")
     );
 
-    challenges[pollID] = Challenge({
+    challenges[id] = Challenge({
       challenger: msg.sender,
       rewardPool: SafeMath.sub(100, get("pDispensationPct")).mul(deposit).div(100),
       stake: deposit,
@@ -191,24 +191,25 @@ contract Parameterizer {
       winningTokens: 0
     });
 
-    proposals[_propID].challengeID = pollID;       // update listing to store most recent challenge
+    // will read proposals[hash].challenge = id
+    proposals[_propID].challenge = id;       // update listing to store most recent challenge
 
     //take tokens from challenger
     require(token.transferFrom(msg.sender, this, deposit));
 
-    uint commitEndDate;
-    uint revealEndDate;
-    (commitEndDate, revealEndDate,) = voting.pollMap(pollID);
+    uint commitExpiry;
+    uint revealExpiry;
+    (commitExpiry, revealExpiry,) = voting.pollMap(id);
 
     emit _NewChallenge(
-      _propID,
-      pollID,
-      commitEndDate,
-      revealEndDate,
+      _propID, // hash
+      id,
+      commitExpiry,
+      revealExpiry,
       msg.sender
     );
 
-    return pollID;
+    return id;
   }
 
   /**
@@ -257,26 +258,26 @@ contract Parameterizer {
 
   /**
   @notice claim the tokens owed for the msg.sender in the provided challenge
-  @param _challengeID the challenge ID to claim tokens for
+  @param _id the challenge ID to claim tokens for
   @param _salt the salt used to vote in the challenge being withdrawn for
   */
-  function claimReward(uint _challengeID, uint _salt) public {
+  function claimReward(uint _id, uint _salt) public {
     // ensure voter has not already claimed tokens and challenge results have been processed
-    require(challenges[_challengeID].tokenClaims[msg.sender] == false);
-    require(challenges[_challengeID].resolved == true);
+    require(challenges[_id].rewardsClaimed[msg.sender] == false);
+    require(challenges[_id].resolved == true);
 
-    uint voterTokens = voting.getNumPassingTokens(msg.sender, _challengeID, _salt);
-    uint reward = voterReward(msg.sender, _challengeID, _salt);
+    uint voterTokens = voting.getNumPassingTokens(msg.sender, _id, _salt);
+    uint reward = voterReward(msg.sender, _id, _salt);
 
     // subtract voter's information to preserve the participation ratios of other voters
     // compared to the remaining pool of rewards
-    challenges[_challengeID].winningTokens = challenges[_challengeID].winningTokens.sub(voterTokens);
-    challenges[_challengeID].rewardPool = challenges[_challengeID].rewardPool.sub(reward);
+    challenges[_id].winningTokens = challenges[_id].winningTokens.sub(voterTokens);
+    challenges[_id].rewardPool = challenges[_id].rewardPool.sub(reward);
 
     // ensures a voter cannot claim tokens again
-    challenges[_challengeID].tokenClaims[msg.sender] = true;
+    challenges[_id].rewardsClaimed[msg.sender] = true;
 
-    emit _RewardClaimed(_challengeID, reward, msg.sender);
+    emit _RewardClaimed(_id, reward, msg.sender);
     require(token.transfer(msg.sender, reward));
   }
 
@@ -287,16 +288,16 @@ contract Parameterizer {
   /**
   @dev                Calculates the provided voter's token reward for the given poll.
   @param _voter       The address of the voter whose reward balance is to be returned
-  @param _challengeID The ID of the challenge the voter's reward is being calculated for
+  @param _id The ID of the challenge the voter's reward is being calculated for
   @param _salt        The salt of the voter's commit hash in the given poll
   @return             The uint indicating the voter's reward
   */
-  function voterReward(address _voter, uint _challengeID, uint _salt)
+  function voterReward(address _voter, uint _id, uint _salt)
   public view returns (uint)
   {
-    uint winningTokens = challenges[_challengeID].winningTokens;
-    uint rewardPool = challenges[_challengeID].rewardPool;
-    uint voterTokens = voting.getNumPassingTokens(_voter, _challengeID, _salt);
+    uint winningTokens = challenges[_id].winningTokens;
+    uint rewardPool = challenges[_id].rewardPool;
+    uint voterTokens = voting.getNumPassingTokens(_voter, _id, _salt);
     return voterTokens.mul(rewardPool).div(winningTokens);
   }
 
@@ -307,7 +308,7 @@ contract Parameterizer {
   function canBeSet(bytes32 _propID) view public returns (bool) {
     ParamProposal memory prop = proposals[_propID];
 
-    return (now > prop.appExpiry && now < prop.processBy && prop.challengeID == 0);
+    return (now > prop.appExpiry && now < prop.processBy && prop.challenge == 0);
   }
 
   /**
@@ -324,22 +325,22 @@ contract Parameterizer {
   */
   function challengeCanBeResolved(bytes32 _propID) view public returns (bool) {
     ParamProposal memory prop = proposals[_propID];
-    Challenge memory challenge = challenges[prop.challengeID];
+    Challenge memory challenge = challenges[prop.challenge];
 
-    return (prop.challengeID > 0 && challenge.resolved == false && voting.pollEnded(prop.challengeID));
+    return (prop.challenge > 0 && challenge.resolved == false && voting.pollEnded(prop.challenge));
   }
 
   /**
   @notice Determines the number of tokens to awarded to the winning party in a challenge
-  @param _challengeID The challengeID to determine a reward for
+  @param _id The challenge ID to determine a reward for
   */
-  function challengeWinnerReward(uint _challengeID) public view returns (uint) {
-    if (voting.getTotalNumberOfTokensForWinningOption(_challengeID) == 0) {
+  function challengeWinnerReward(uint _id) public view returns (uint) {
+    if (voting.getTotalNumberOfTokensForWinningOption(_id) == 0) {
       // Edge case, nobody voted, give all tokens to the challenger.
-      return challenges[_challengeID].stake.mul(2);
+      return challenges[_id].stake.mul(2);
     }
 
-    return (challenges[_challengeID].stake.mul(2)).sub(challenges[_challengeID].rewardPool);
+    return (challenges[_id].stake.mul(2)).sub(challenges[_id].rewardPool);
   }
 
   /**
@@ -352,11 +353,11 @@ contract Parameterizer {
 
   /**
   @dev                Getter for Challenge tokenClaims mappings
-  @param _challengeID The challengeID to query
-  @param _voter       The voter whose claim status to query for the provided challengeID
+  @param _id The challenge ID to query
+  @param _voter       The voter whose claim status to query for the provided challenge ID
   */
-  function tokenClaims(uint _challengeID, address _voter) public view returns (bool) {
-    return challenges[_challengeID].tokenClaims[_voter];
+  function tokenClaims(uint _id, address _voter) public view returns (bool) {
+    return challenges[_id].rewardsClaimed[_voter];
   }
 
   // ----------------
@@ -369,21 +370,21 @@ contract Parameterizer {
   */
   function resolveChallenge(bytes32 _propID) private {
     ParamProposal memory prop = proposals[_propID];
-    Challenge storage challenge = challenges[prop.challengeID];
+    Challenge storage challenge = challenges[prop.challenge];
 
     // winner gets back their full staked deposit, and dispensationPct*loser's stake
-    uint reward = challengeWinnerReward(prop.challengeID);
+    uint reward = challengeWinnerReward(prop.challenge);
 
-    challenge.winningTokens = voting.getTotalNumberOfTokensForWinningOption(prop.challengeID);
+    challenge.winningTokens = voting.getTotalNumberOfTokensForWinningOption(prop.challenge);
     challenge.resolved = true;
 
-    if (voting.isPassed(prop.challengeID)) { // The challenge failed
+    if (voting.isPassed(prop.challenge)) { // The challenge failed
       if (prop.processBy > now) {
         set(prop.name, prop.value);
       }
       emit _ChallengeFailed(
         _propID,
-        prop.challengeID,
+        prop.challenge,
         challenge.rewardPool,
         challenge.winningTokens
       );
@@ -392,12 +393,12 @@ contract Parameterizer {
     } else { // The challenge succeeded or nobody voted
       emit _ChallengeSucceeded(
         _propID,
-        prop.challengeID,
+        prop.challenge,
         challenge.rewardPool,
         challenge.winningTokens
       );
 
-      require(token.transfer(challenges[prop.challengeID].challenger, reward));
+      require(token.transfer(challenges[prop.challenge].challenger, reward));
     }
   }
 
