@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "Contracts implementing Computable Protocol",
   "scripts": {
-    "lint:sol": "node_modules/.bin/solium -d contracts/",
-    "lint:sol:fix": "node_modules/.bin/solium -d contracts/ --fix",
+    "lint:solium": "node_modules/.bin/solium -d contracts/",
+    "lint:solium:fix": "node_modules/.bin/solium -d contracts/ --fix",
     "truffle:install": "node_modules/.bin/truffle install",
     "truffle:compile": "node_modules/.bin/truffle compile"
   },
