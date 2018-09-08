@@ -10,4 +10,4 @@ We actively welcome bug reports, suggestions, and code contributions!
 * git clone...
 * `npm install`
 * `npm run truffle:compile`
-* `npm run lint:sol`
+* `npm run lint:solium`
