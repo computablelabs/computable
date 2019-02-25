@@ -256,7 +256,7 @@ contract Registry {
     } else if (challengeCanBeResolved(_listingHash)) {
       resolveChallenge(_listingHash);
     } else {
-      revert();
+      revert("Revert: While attempting to update status, could neither whitelist application nor resolve challenge.");
     }
   }
 

@@ -241,7 +241,7 @@ contract Parameterizer {
     } else {
       // There is no challenge against the proposal, and neither the appExpiry date nor the
       // processBy date has passed.
-      revert();
+      revert("Revert: No challenge against proposal, and neither appExpiry date nor processBy date has passed.");
     }
 
     assert(get("dispensationPct") <= 100);
