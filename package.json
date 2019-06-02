@@ -1,24 +1,18 @@
 {
   "name": "Computable",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "description": "Contracts implementing Computable Protocol",
-  "scripts": {
-    "lint:solium": "node_modules/.bin/solium -d contracts/",
-    "lint:solium:fix": "node_modules/.bin/solium -d contracts/ --fix",
-    "truffle:install": "node_modules/.bin/truffle install",
-    "truffle:compile": "node_modules/.bin/truffle compile"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/computablelabs/computable.git"
   },
   "keywords": [
-    "solidity",
+    "vyper",
     "ethereum",
     "smart",
     "contracts",
-    "security",
-    "computable"
+    "computable",
+    "badass",
   ],
   "author": "Computable Labs",
   "license": "MIT",
@@ -26,11 +20,4 @@
     "url": "https://github.com/computablelabs/computable/issues"
   },
   "homepage": "https://github.com/computablelabs/computable",
-  "devDependencies": {
-    "solium": "^1.1.7",
-    "truffle": "^4.1.12"
-  },
-  "dependencies": {
-    "solc": "^0.4.24"
-  }
 }
