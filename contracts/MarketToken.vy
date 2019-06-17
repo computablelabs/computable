@@ -11,16 +11,18 @@ Transfer: event({source: indexed(address), to: indexed(address), amount: wei_val
 allowances: map(address, map(address, wei_value))
 balances: map(address, wei_value)
 decimals: public(uint256)
+symbol: public(string[3])
 owner_address: address
-listing_address: address
 reserve_address: address
+listing_address: address
 supply: wei_value
 
 @public
 def __init__(initial_account: address, initial_balance: wei_value):
-  self.decimals = 18
-  self.balances[initial_account] = initial_balance # TODO this _could_ be msg.sender and not need the arg
   self.owner_address = msg.sender
+  self.balances[initial_account] = initial_balance
+  self.decimals = 18
+  self.symbol = "CMT"
   self.supply = initial_balance
 
 
@@ -69,7 +71,7 @@ def getPrivileged() -> (address, address):
   @notice return the address(es) of contracts that are recognized as being privileged
   @return The address(es)
   """
-  return (self.listing_address, self.reserve_address)
+  return (self.reserve_address, self.listing_address)
 
 
 @public
@@ -79,7 +81,7 @@ def hasPrivilege(sender: address) -> bool:
   @notice Return a bool indicating whether the given address is a member of this contracts privileged group
   @return bool
   """
-  return (sender == self.listing_address or sender == self.reserve_address)
+  return (sender == self.reserve_address or sender == self.listing_address)
 
 
 @public
@@ -118,7 +120,7 @@ def decreaseApproval(spender: address, amount: wei_value):
   @param spender The spender of the funds
   @param amount The amount to decrease a previous allowance by
   """
-  self.allowances[msg.sender][spender] -= amount # vyper will throw if overrun here
+  self.allowances[msg.sender][spender] -= amount
   log.Approval(msg.sender, spender, self.allowances[msg.sender][spender])
 
 
@@ -147,17 +149,18 @@ def mint(amount: wei_value):
 
 
 @public
-def setPrivileged(listing: address, reserve: address):
+def setPrivileged(reserve: address, listing: address):
   """
-  @notice We restrict some activities to only privileged contracts
+  @notice We restrict some activities to only privileged contracts. Can only be called once.
   @dev We only allow the owner to set the privileged address(es)
-  @param listing The deployed address of the Listing Contract
   @param reserve The deployed address of the reserve Contract
+  @param listing The deployed address of the Listing Contract
   """
   assert msg.sender == self.owner_address
-  # TODO we _could_ also only allow this to occur once
-  self.listing_address = listing
+  assert self.listing_address == ZERO_ADDRESS
+  assert self.reserve_address == ZERO_ADDRESS
   self.reserve_address = reserve
+  self.listing_address = listing
 
 
 @public

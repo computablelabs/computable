@@ -46,7 +46,7 @@ def getSupportPrice() -> wei_value:
   reserve: wei_value = self.ether_token.balanceOf(self)
   total: wei_value = self.market_token.totalSupply()
   if total < 1000000000000000000: # that is, is total supply less than one token in wei
-    return price_floor + ((spread * reserve) / 100)
+    return price_floor + ((spread * reserve * 1000000000) / (100 * 1000000000000000000))
   else:
     return price_floor + ((spread * reserve * 1000000000) / (100 * total)) # NOTE the multiplier ONE_GWEI
 
