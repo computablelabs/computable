@@ -12,12 +12,14 @@ Withdrawn: event({to: indexed(address), amount: wei_value})
 allowances: map(address, map(address, wei_value))
 balances: map(address, wei_value)
 decimals: public(uint256)
+symbol: public(string[3])
 supply: wei_value
 
 @public
 def __init__(initial_account: address, initial_balance: wei_value):
   self.balances[initial_account] = initial_balance
   self.decimals = 18
+  self.symbol = "CET"
   self.supply = initial_balance
 
 

@@ -86,9 +86,10 @@ def getReserve() -> address:
 @public
 def setPrivileged(listing: address):
   """
-  @notice Allow the Market owner to set privileged contract addresses
+  @notice Allow the Market owner to set privileged contract addresses. Can only be called once.
   """
   assert msg.sender == self.owner_address
+  assert self.listing_address == ZERO_ADDRESS
   self.listing_address = listing
 
 

@@ -25,11 +25,11 @@ Voted: event({hash: indexed(bytes32), voter: indexed(address)})
 candidates: map(bytes32, Candidate)
 stakes: map(address, map(bytes32, wei_value)) # user -> candidate -> $
 market_token: MarketToken
+owner_address: address
 parameterizer_address: address
+reserve_address: address
 datatrust_address: address
 listing_address: address
-reserve_address: address
-owner_address: address
 
 @public
 def __init__(market_token_addr: address):
@@ -44,20 +44,24 @@ def getPrivileged() -> (address, address, address, address):
   @notice Fetch a list of each privileged address recognized by this contract
   @return privileged addresses
   """
-  return (self.parameterizer_address, self.datatrust_address,
-    self.listing_address, self.reserve_address)
+  return (self.parameterizer_address, self.reserve_address,
+    self.datatrust_address, self.listing_address)
 
 
 @public
-def setPrivileged(parameterizer: address, datatrust: address, listing: address, reserve: address):
+def setPrivileged(parameterizer: address, reserve: address, datatrust: address, listing: address):
   """
-  @notice Allow the Market owner to set privileged contract addresses
+  @notice Allow the Market owner to set privileged contract addresses. Can only be called once.
   """
   assert msg.sender == self.owner_address
+  assert self.parameterizer_address == ZERO_ADDRESS
+  assert self.reserve_address == ZERO_ADDRESS
+  assert self.datatrust_address == ZERO_ADDRESS
+  assert self.listing_address == ZERO_ADDRESS
   self.parameterizer_address = parameterizer
+  self.reserve_address = reserve
   self.datatrust_address = datatrust
   self.listing_address = listing
-  self.reserve_address = reserve
 
 
 @public
@@ -67,8 +71,8 @@ def hasPrivilege(sender: address) -> bool:
   @notice Return a bool indicating whether the given address is a member of this contracts privileged group
   @return bool
   """
-  return (sender == self.parameterizer_address or sender == self.datatrust_address
-    or sender == self.listing_address or sender == self.reserve_address)
+  return (sender == self.parameterizer_address or sender == self.reserve_address
+    or sender == self.datatrust_address or sender == self.listing_address)
 
 
 @public
