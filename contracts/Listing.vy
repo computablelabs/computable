@@ -60,17 +60,17 @@ listings: map(bytes32, Listing)
 market_token: MarketToken
 voting: Voting
 parameterizer: Parameterizer
-datatrust: Datatrust
 reserve: Reserve
+datatrust: Datatrust
 
 @public
 def __init__(market_token_addr: address, voting_addr: address, p11r_addr: address,
-  data_addr: address, res_addr: address):
+  res_addr: address, data_addr: address):
     self.market_token = MarketToken(market_token_addr)
     self.voting = Voting(voting_addr)
     self.parameterizer = Parameterizer(p11r_addr)
-    self.datatrust = Datatrust(data_addr)
     self.reserve = Reserve(res_addr)
+    self.datatrust = Datatrust(data_addr)
 
 
 @public
