@@ -4,7 +4,8 @@ This repository houses the Computable protocol, which seeks to build a decentral
 
 ## The Computable Contracts
 
-The Vyper contracts, ABI and bytecode present here, are being actively developed [in this repo](https://github.com/computablelabs/goest).
+The Vyper contracts, ABI and bytecode present here, are being actively developed in the [goest](https://github.com/computablelabs/goest) repo, which also contains our unit test suite. This repo contains stable versions of developed vyper contracts along with ABI and bytecode.
+
 Once a version has been _frozen_, audited and deployed we will update this repo with said contracts and their deployment addresses.
 
 ### Language specific protocol support
