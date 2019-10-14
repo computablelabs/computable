@@ -16,12 +16,9 @@ symbol: public(string[3])
 supply: wei_value
 
 @public
-def __init__(initial_account: address, initial_balance: wei_value):
-  self.balances[initial_account] = initial_balance
+def __init__():
   self.decimals = 18
   self.symbol = "CET"
-  self.supply = initial_balance
-
 
 @public
 @constant
@@ -61,15 +58,17 @@ def balanceOf(owner: address) -> wei_value:
   return self.balances[owner]
 
 @public
-def decreaseApproval(spender: address, amount: wei_value):
+def decreaseAllowance(spender: address, amount: wei_value) -> bool:
   """
   @notice Decrement the amount allowed to a spender by the given amount
   @dev If the given amount is > the actual allowance we set it to 0
   @param spender The spender of the funds
   @param amount The amount to decrease a previous allowance by
+  @return true if successful
   """
   self.allowances[msg.sender][spender] -= amount #vyper will throw if overrun here
   log.Approval(msg.sender, spender, self.allowances[msg.sender][spender])
+  return True
 
 
 @public
@@ -84,14 +83,16 @@ def deposit():
 
 
 @public
-def increaseApproval(spender: address, amount: wei_value):
+def increaseAllowance(spender: address, amount: wei_value) -> bool:
   """
   @notice Increase the amount a spender has allotted to them, by the owner, by the given amount
   @param spender The address whose allowance to increase
   @param amount The amount to increase by
+  @return true if successful
   """
   self.allowances[msg.sender][spender] += amount
   log.Approval(msg.sender, spender, self.allowances[msg.sender][spender])
+  return True
 
 
 @public

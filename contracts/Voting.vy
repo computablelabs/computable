@@ -3,7 +3,7 @@
 # @author Computable
 
 # constants
-CHALLENGE: constant(uint256) = 2 # candidate.kind that voting knows about
+APPLICATION: constant(uint256) = 1 # lone candidate.kind that voting knows about
 
 struct Candidate:
   kind: uint256 # one of [1,2,3,4] representing an application, challenge, reparam or registration respectively
@@ -27,7 +27,6 @@ stakes: map(address, map(bytes32, wei_value)) # user -> candidate -> $
 market_token: MarketToken
 owner_address: address
 parameterizer_address: address
-reserve_address: address
 datatrust_address: address
 listing_address: address
 
@@ -39,30 +38,36 @@ def __init__(market_token_addr: address):
 
 @public
 @constant
-def getPrivileged() -> (address, address, address, address):
+def getPrivileged() -> (address, address, address):
   """
   @notice Fetch a list of each privileged address recognized by this contract
   @return privileged addresses
   """
-  return (self.parameterizer_address, self.reserve_address,
-    self.datatrust_address, self.listing_address)
+  return (self.parameterizer_address, self.datatrust_address, self.listing_address)
 
 
+# TODO look at the decorator @noreentrant
 @public
-def setPrivileged(parameterizer: address, reserve: address, datatrust: address, listing: address):
+def setPrivileged(parameterizer: address, datatrust: address, listing: address):
   """
   @notice Allow the Market owner to set privileged contract addresses. Can only be called once.
   """
   assert msg.sender == self.owner_address
   assert self.parameterizer_address == ZERO_ADDRESS
-  assert self.reserve_address == ZERO_ADDRESS
   assert self.datatrust_address == ZERO_ADDRESS
   assert self.listing_address == ZERO_ADDRESS
   self.parameterizer_address = parameterizer
-  self.reserve_address = reserve
   self.datatrust_address = datatrust
   self.listing_address = listing
 
+
+@private
+@constant
+def _hasPrivilege(sender: address) -> bool:
+  """
+  Abstraction of the logic for the public method `hasPrivilege`
+  """
+  return (sender == self.parameterizer_address or sender == self.datatrust_address or sender == self.listing_address)
 
 @public
 @constant
@@ -71,9 +76,7 @@ def hasPrivilege(sender: address) -> bool:
   @notice Return a bool indicating whether the given address is a member of this contracts privileged group
   @return bool
   """
-  return (sender == self.parameterizer_address or sender == self.reserve_address
-    or sender == self.datatrust_address or sender == self.listing_address)
-
+  return self._hasPrivilege(sender)
 
 @public
 @constant
@@ -129,11 +132,11 @@ def addCandidate(hash: bytes32, kind: uint256, owner: address, stake: wei_value,
   @param stake How much, in wei, must be staked to vote or challenge
   @param vote_by How long into the future until polls for this candidate close
   """
-  assert self.hasPrivilege(msg.sender)
+  assert self._hasPrivilege(msg.sender)
   assert self.candidates[hash].owner == ZERO_ADDRESS
-  if kind == CHALLENGE: # a challenger must successfully stake a challenge
+  if kind != APPLICATION: # Only applications are unstaked
     self.market_token.transferFrom(owner, self, stake)
-    self.stakes[owner][hash] = stake
+    self.stakes[owner][hash] += stake
   end: timestamp = block.timestamp + vote_by
   self.candidates[hash].kind = kind
   self.candidates[hash].owner = owner
@@ -148,7 +151,7 @@ def removeCandidate(hash: bytes32):
   @notice Remove a candidate from the current list
   @dev Clears all members from a Candidate pointed to by a hash (enabling re-use)
   """
-  assert self.hasPrivilege(msg.sender)
+  assert self._hasPrivilege(msg.sender)
   assert self.candidates[hash].owner != ZERO_ADDRESS
   clear(self.candidates[hash]) # TODO assure this works vs individually setting to 0
   log.CandidateRemoved(hash)
@@ -215,7 +218,7 @@ def transferStake(hash: bytes32, addr: address):
   assert msg.sender == self.listing_address # only the listing contract will call this
   staked: wei_value = self.stakes[self.candidates[hash].owner][hash]
   clear(self.stakes[self.candidates[hash].owner][hash])
-  self.stakes[addr][hash] = staked
+  self.stakes[addr][hash] += staked
 
 
 @public

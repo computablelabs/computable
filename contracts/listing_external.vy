@@ -6,7 +6,7 @@ contract Listing:
     def list(hash: bytes32): modifying
     def getListing(hash: bytes32) -> (address, uint256(wei)): constant
     def resolveApplication(hash: bytes32): modifying
-    def claimBytesAccessed(hash: bytes32): modifying
+    def claimAccessReward(hash: bytes32): modifying
     def challenge(hash: bytes32): modifying
     def resolveChallenge(hash: bytes32): modifying
     def exit(hash: bytes32): modifying

@@ -17,9 +17,17 @@ COST_PER_BYTE: constant(uint256) = 11
 # The sole Candidate 'kind' known to the Parameterizer
 REPARAM: constant(uint256) = 3
 
+# The number of seconds in a day
+SECONDS_IN_DAY: constant(uint256) = 86400 
+
 struct Reparam:
   param: uint256
   value: uint256
+
+# Parameterizer has access to the MarketToken contract in order to query
+# for the total number of market tokens
+contract MarketToken:
+  def totalSupply() -> uint256(wei): constant
 
 # Parameterizer has access to the Voting contract, being recognized by it as privileged
 contract Voting:
@@ -44,11 +52,13 @@ plurality: uint256
 backend_payment: uint256
 maker_payment: uint256
 cost_per_byte: wei_value
+market_token: MarketToken 
 voting: Voting
 
 @public
-def __init__(v_addr: address, pr_fl: wei_value, spd: uint256, list_re: wei_value, stk: wei_value,
+def __init__(mkt_addr: address, v_addr: address, pr_fl: wei_value, spd: uint256, list_re: wei_value, stk: wei_value,
   vote_by_d: timedelta, pl: uint256, back_p: uint256, maker_p: uint256, cost: wei_value):
+    self.market_token = MarketToken(mkt_addr)
     self.voting = Voting(v_addr)
     self.price_floor = pr_fl
     self.spread = spd
@@ -208,18 +218,31 @@ def resolveReparam(hash: bytes32):
     if param == PRICE_FLOOR:
       self.price_floor = value
     elif param == SPREAD:
+      # The spread is a percentage >= 100%
+      assert value >= 100 
       self.spread = value
     elif param == LIST_REWARD:
       self.list_reward = value
     elif param == STAKE:
+      # The stake can't be zero
+      assert value > 0
+      # The stake can't exceed 1/3 of MarketToken supply
+      assert value <= (self.market_token.totalSupply()/3) 
       self.stake = value
     elif param == VOTE_BY:
+      assert value >= SECONDS_IN_DAY
+      assert value <= 2 * (7 * SECONDS_IN_DAY)
       self.vote_by = value
     elif param == PLURALITY:
+      # Plurality can be at most 100
+      assert value <= 100
       self.plurality = value
+    # Backend percent + Maker percent should be <= 100
     elif param == MAKER_PAYMENT:
+      assert (value + self.backend_payment) <= 100
       self.maker_payment = value
     elif param == BACKEND_PAYMENT:
+      assert (value + self.maker_payment) <= 100
       self.backend_payment = value
     elif param == COST_PER_BYTE:
       self.cost_per_byte = value

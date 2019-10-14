@@ -8,8 +8,8 @@ contract Markettoken:
     def hasPrivilege(sender: address) -> bool: constant
     def burn(amount: uint256(wei)): modifying
     def burnAll(owner: address): modifying
-    def decreaseApproval(spender: address, amount: uint256(wei)): modifying
-    def increaseApproval(spender: address, amount: uint256(wei)): modifying
+    def decreaseAllowance(spender: address, amount: uint256(wei)) -> bool: modifying
+    def increaseAllowance(spender: address, amount: uint256(wei)) -> bool: modifying
     def mint(amount: uint256(wei)): modifying
     def setPrivileged(reserve: address, listing: address): modifying
     def totalSupply() -> uint256(wei): constant

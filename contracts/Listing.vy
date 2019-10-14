@@ -35,19 +35,19 @@ contract Parameterizer:
   def getPlurality() -> uint256: constant
   def getVoteBy() -> uint256(sec): constant
 
+contract Reserve:
+  def getSupportPrice() -> uint256(wei): constant
+
 contract Datatrust:
   def getDataHash(hash: bytes32) -> bytes32: constant
   def removeDataHash(hash: bytes32): modifying
-  def getBytesAccessed(hash: bytes32) -> uint256: constant
-  def bytesAccessedClaimed(hash: bytes32, fee: uint256(wei)): modifying
-
-contract Reserve:
-  def getSupportPrice() -> uint256(wei): constant
+  def getAccessRewardEarned(hash: bytes32) -> wei_value: constant
+  def accessRewardClaimed(hash: bytes32): modifying
 
 # events
 ApplicationFailed: event({hash: indexed(bytes32), applicant: indexed(address)})
 Applied: event({hash: indexed(bytes32), applicant: indexed(address)})
-BytesAccessedClaimed: event({hash: indexed(bytes32), claimed: uint256, minted: uint256})
+AccessRewardClaimed: event({hash: indexed(bytes32), maker_fee: wei_value, minted: uint256})
 Challenged: event({hash: indexed(bytes32), challenger: indexed(address)})
 ChallengeFailed: event({hash: indexed(bytes32), challenger: indexed(address)})
 ChallengeSucceeded: event({hash: indexed(bytes32), challenger: indexed(address)})
@@ -127,7 +127,7 @@ def removeListing(hash: bytes32):
   """
   supply: wei_value = self.listings[hash].supply
   if supply > 0:
-    self.market_token.burn(supply)
+    self.market_token.transfer(self.listings[hash].owner, supply)
   clear(self.listings[hash]) # TODO assure we don't need to do this by hand
   # datatrust now needs to clear the data hash
   self.datatrust.removeDataHash(hash)
@@ -162,26 +162,24 @@ def resolveApplication(hash: bytes32):
 
 
 @public
-def claimBytesAccessed(hash: bytes32):
+def claimAccessReward(hash: bytes32):
   """
   @notice Allows a listing owner to claim the rewards of listing access. These support
   the market and will be noted at the listing.supply (MarketToken)
   @param hash The listing identifier
   """
   assert msg.sender == self.listings[hash].owner
-  # the algo for maker payment is (accessed*cost)/(100/maker_pct)
-  accessed: uint256 = self.datatrust.getBytesAccessed(hash)
-  maker_fee: wei_value = (self.parameterizer.getCostPerByte() * accessed * self.parameterizer.getMakerPayment()) / 100
+  maker_fee: wei_value = self.datatrust.getAccessRewardEarned(hash)
   price: wei_value = self.reserve.getSupportPrice()
   # if credits accumulated are too low for support, exit now
   assert maker_fee >= price
   # clear the credits before proceeding (also transfers fee to reserve)
-  self.datatrust.bytesAccessedClaimed(hash, maker_fee)
+  self.datatrust.accessRewardClaimed(hash)
   # support is now called, according to the buy-curve.
   minted: uint256 = (maker_fee * 1000000000) / price # 1Billionth token is the smallest denomination...
   self.market_token.mint(minted)
   self.listings[hash].supply += minted
-  log.BytesAccessedClaimed(hash, accessed, minted)
+  log.AccessRewardClaimed(hash, maker_fee, minted)
 
 
 @public

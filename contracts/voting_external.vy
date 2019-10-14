@@ -1,8 +1,8 @@
 
 # External Contracts
 contract Voting:
-    def getPrivileged() -> (address, address, address, address): constant
-    def setPrivileged(parameterizer: address, reserve: address, datatrust: address, listing: address): modifying
+    def getPrivileged() -> (address, address, address): constant
+    def setPrivileged(parameterizer: address, datatrust: address, listing: address): modifying
     def hasPrivilege(sender: address) -> bool: constant
     def candidateIs(hash: bytes32, kind: uint256) -> bool: constant
     def isCandidate(hash: bytes32) -> bool: constant
