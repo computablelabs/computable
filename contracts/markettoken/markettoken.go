@@ -15,11 +15,23 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 )
 
+// Reference imports to suppress errors if they are not otherwise used.
+var (
+	_ = big.NewInt
+	_ = strings.NewReader
+	_ = ethereum.NotFound
+	_ = abi.U256
+	_ = bind.Bind
+	_ = common.Big1
+	_ = types.BloomLookup
+	_ = event.NewSubscription
+)
+
 // MarketTokenABI is the input ABI used to generate the binding from.
-const MarketTokenABI = "[{\"name\":\"Approval\",\"inputs\":[{\"type\":\"address\",\"name\":\"owner\",\"indexed\":true},{\"type\":\"address\",\"name\":\"spender\",\"indexed\":true},{\"type\":\"uint256\",\"name\":\"amount\",\"indexed\":false,\"unit\":\"wei\"}],\"anonymous\":false,\"type\":\"event\"},{\"name\":\"Burned\",\"inputs\":[{\"type\":\"address\",\"name\":\"burner\",\"indexed\":true},{\"type\":\"uint256\",\"name\":\"amount\",\"indexed\":false,\"unit\":\"wei\"}],\"anonymous\":false,\"type\":\"event\"},{\"name\":\"Minted\",\"inputs\":[{\"type\":\"address\",\"name\":\"to\",\"indexed\":true},{\"type\":\"uint256\",\"name\":\"amount\",\"indexed\":false,\"unit\":\"wei\"}],\"anonymous\":false,\"type\":\"event\"},{\"name\":\"Transfer\",\"inputs\":[{\"type\":\"address\",\"name\":\"source\",\"indexed\":true},{\"type\":\"address\",\"name\":\"to\",\"indexed\":true},{\"type\":\"uint256\",\"name\":\"amount\",\"indexed\":false,\"unit\":\"wei\"}],\"anonymous\":false,\"type\":\"event\"},{\"outputs\":[],\"inputs\":[{\"type\":\"address\",\"name\":\"initial_account\"},{\"type\":\"uint256\",\"name\":\"initial_balance\",\"unit\":\"wei\"}],\"constant\":false,\"payable\":false,\"type\":\"constructor\"},{\"name\":\"allowance\",\"outputs\":[{\"type\":\"uint256\",\"name\":\"out\",\"unit\":\"wei\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"owner\"},{\"type\":\"address\",\"name\":\"spender\"}],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":815},{\"name\":\"approve\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"spender\"},{\"type\":\"uint256\",\"name\":\"amount\",\"unit\":\"wei\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":37719},{\"name\":\"balanceOf\",\"outputs\":[{\"type\":\"uint256\",\"name\":\"out\",\"unit\":\"wei\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"owner\"}],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":715},{\"name\":\"getPrivileged\",\"outputs\":[{\"type\":\"address\",\"name\":\"out\"},{\"type\":\"address\",\"name\":\"out\"}],\"inputs\":[],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":851},{\"name\":\"hasPrivilege\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"sender\"}],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":884},{\"name\":\"burn\",\"outputs\":[],\"inputs\":[{\"type\":\"uint256\",\"name\":\"amount\",\"unit\":\"wei\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":75309},{\"name\":\"burnAll\",\"outputs\":[],\"inputs\":[{\"type\":\"address\",\"name\":\"owner\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":80387},{\"name\":\"decreaseApproval\",\"outputs\":[],\"inputs\":[{\"type\":\"address\",\"name\":\"spender\"},{\"type\":\"uint256\",\"name\":\"amount\",\"unit\":\"wei\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":38862},{\"name\":\"increaseApproval\",\"outputs\":[],\"inputs\":[{\"type\":\"address\",\"name\":\"spender\"},{\"type\":\"uint256\",\"name\":\"amount\",\"unit\":\"wei\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":39098},{\"name\":\"mint\",\"outputs\":[],\"inputs\":[{\"type\":\"uint256\",\"name\":\"amount\",\"unit\":\"wei\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":75841},{\"name\":\"setPrivileged\",\"outputs\":[],\"inputs\":[{\"type\":\"address\",\"name\":\"reserve\"},{\"type\":\"address\",\"name\":\"listing\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":71563},{\"name\":\"totalSupply\",\"outputs\":[{\"type\":\"uint256\",\"name\":\"out\",\"unit\":\"wei\"}],\"inputs\":[],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":813},{\"name\":\"transfer\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"to\"},{\"type\":\"uint256\",\"name\":\"amount\",\"unit\":\"wei\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":74471},{\"name\":\"transferFrom\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"source\"},{\"type\":\"address\",\"name\":\"to\"},{\"type\":\"uint256\",\"name\":\"amount\",\"unit\":\"wei\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":110441},{\"name\":\"decimals\",\"outputs\":[{\"type\":\"uint256\",\"name\":\"out\"}],\"inputs\":[],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":903},{\"name\":\"symbol\",\"outputs\":[{\"type\":\"string\",\"name\":\"out\"}],\"inputs\":[],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":2411}]"
+const MarketTokenABI = "[{\"name\":\"Approval\",\"inputs\":[{\"type\":\"address\",\"name\":\"owner\",\"indexed\":true},{\"type\":\"address\",\"name\":\"spender\",\"indexed\":true},{\"type\":\"uint256\",\"name\":\"amount\",\"indexed\":false,\"unit\":\"wei\"}],\"anonymous\":false,\"type\":\"event\"},{\"name\":\"Burned\",\"inputs\":[{\"type\":\"address\",\"name\":\"burner\",\"indexed\":true},{\"type\":\"uint256\",\"name\":\"amount\",\"indexed\":false,\"unit\":\"wei\"}],\"anonymous\":false,\"type\":\"event\"},{\"name\":\"Minted\",\"inputs\":[{\"type\":\"address\",\"name\":\"to\",\"indexed\":true},{\"type\":\"uint256\",\"name\":\"amount\",\"indexed\":false,\"unit\":\"wei\"}],\"anonymous\":false,\"type\":\"event\"},{\"name\":\"Transfer\",\"inputs\":[{\"type\":\"address\",\"name\":\"source\",\"indexed\":true},{\"type\":\"address\",\"name\":\"to\",\"indexed\":true},{\"type\":\"uint256\",\"name\":\"amount\",\"indexed\":false,\"unit\":\"wei\"}],\"anonymous\":false,\"type\":\"event\"},{\"outputs\":[],\"inputs\":[{\"type\":\"address\",\"name\":\"initial_account\"},{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"initial_balance\"}],\"constant\":false,\"payable\":false,\"type\":\"constructor\"},{\"name\":\"allowance\",\"outputs\":[{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"owner\"},{\"type\":\"address\",\"name\":\"spender\"}],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":859},{\"name\":\"approve\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"spender\"},{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"amount\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":37763},{\"name\":\"balanceOf\",\"outputs\":[{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"owner\"}],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":765},{\"name\":\"getPrivileged\",\"outputs\":[{\"type\":\"address\",\"name\":\"out\"},{\"type\":\"address\",\"name\":\"out\"}],\"inputs\":[],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":919},{\"name\":\"hasPrivilege\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"sender\"}],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":934},{\"name\":\"burn\",\"outputs\":[],\"inputs\":[{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"amount\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":73715},{\"name\":\"burnAll\",\"outputs\":[],\"inputs\":[{\"type\":\"address\",\"name\":\"owner\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":78793},{\"name\":\"decreaseAllowance\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"spender\"},{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"amount\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":38921},{\"name\":\"increaseAllowance\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"spender\"},{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"amount\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":39157},{\"name\":\"mint\",\"outputs\":[],\"inputs\":[{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"amount\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":74458},{\"name\":\"setPrivileged\",\"outputs\":[],\"inputs\":[{\"type\":\"address\",\"name\":\"reserve\"},{\"type\":\"address\",\"name\":\"listing\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":71577},{\"name\":\"totalSupply\",\"outputs\":[{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"out\"}],\"inputs\":[],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":881},{\"name\":\"transfer\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"to\"},{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"amount\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":74515},{\"name\":\"transferFrom\",\"outputs\":[{\"type\":\"bool\",\"name\":\"out\"}],\"inputs\":[{\"type\":\"address\",\"name\":\"source\"},{\"type\":\"address\",\"name\":\"to\"},{\"type\":\"uint256\",\"unit\":\"wei\",\"name\":\"amount\"}],\"constant\":false,\"payable\":false,\"type\":\"function\",\"gas\":110479},{\"name\":\"decimals\",\"outputs\":[{\"type\":\"uint256\",\"name\":\"out\"}],\"inputs\":[],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":971},{\"name\":\"symbol\",\"outputs\":[{\"type\":\"string\",\"name\":\"out\"}],\"inputs\":[],\"constant\":true,\"payable\":false,\"type\":\"function\",\"gas\":7024}]"
 
 // MarketTokenBin is the compiled bytecode used for deploying new contracts.
-const MarketTokenBin = `0x740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a0526040610bd36101403934156100a157600080fd5b6020610bd360c03960c05160205181106100ba57600080fd5b50336004556101605160016101405160e05260c052604060c0205560126002556003610180527f434d5400000000000000000000000000000000000000000000000000000000006101a05261018080600360c052602060c020602082510161012060006002818352015b8261012051602002111561013757610159565b61012051602002850151610120518501555b8151600101808352811415610124575b50505050505061016051600755610bbb56600035601c52740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a05263dd62ed3e600051141561010357604060046101403734156100b457600080fd5b60043560205181106100c557600080fd5b5060243560205181106100d757600080fd5b5060006101405160e05260c052604060c0206101605160e05260c052604060c0205460005260206000f3005b63095ea7b36000511415610198576040600461014037341561012457600080fd5b600435602051811061013557600080fd5b506101605160003360e05260c052604060c0206101405160e05260c052604060c02055610160516101805261014051337f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b9256020610180a3600160005260206000f3005b6370a0823160005114156101e757602060046101403734156101b957600080fd5b60043560205181106101ca57600080fd5b5060016101405160e05260c052604060c0205460005260206000f3005b63d4c17539600051141561022157341561020057600080fd5b604061014052610160600554815260065481602001525061014051610160f3005b63b7bf210c600051141561026f576020600461014037341561024257600080fd5b600435602051811061025357600080fd5b50600654610140511460055461014051141760005260206000f3005b6342966c68600051141561033b576020600461014037341561029057600080fd5b60206101e0602463b7bf210c61016052336101805261017c6000305af16102b657600080fd5b6101e0516102c357600080fd5b60013360e05260c052604060c02061014051815410156102e257600080fd5b61014051815403815550600761014051815410156102ff57600080fd5b610140518154038155506101405161020052337f696de425f79f4a40bc6d2122ca50507f0efbeabbff86a84871b7196ab8ea8df76020610200a2005b637e9d2ac1600051141561043d576020600461014037341561035c57600080fd5b600435602051811061036d57600080fd5b5060206101e0602463b7bf210c61016052336101805261017c6000305af161039457600080fd5b6101e0516103a157600080fd5b60016101405160e05260c052604060c0205461020052600761020051815410156103ca57600080fd5b61020051815403815550600060016101405160e05260c052604060c02055600060006101405160e05260c052604060c0203360e05260c052604060c020556102005161022052610140517f696de425f79f4a40bc6d2122ca50507f0efbeabbff86a84871b7196ab8ea8df76020610220a2005b636618846360005114156104f8576040600461014037341561045e57600080fd5b600435602051811061046f57600080fd5b5060003360e05260c052604060c0206101405160e05260c052604060c020610160518154101561049e57600080fd5b6101605181540381555060003360e05260c052604060c0206101405160e05260c052604060c020546101805261014051337f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b9256020610180a3005b63d73dd62360005114156105b6576040600461014037341561051957600080fd5b600435602051811061052a57600080fd5b5060003360e05260c052604060c0206101405160e05260c052604060c020805461016051825401101561055c57600080fd5b6101605181540181555060003360e05260c052604060c0206101405160e05260c052604060c020546101805261014051337f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b9256020610180a3005b63a0712d68600051141561068857602060046101403734156105d757600080fd5b60206101e0602463b7bf210c61016052336101805261017c6000305af16105fd57600080fd5b6101e05161060a57600080fd5b6007805461014051825401101561062057600080fd5b6101405181540181555060013360e05260c052604060c020805461014051825401101561064c57600080fd5b610140518154018155506101405161020052337f30385c845b448a36257a6a1716e6ad2e1bc2cbe333cde1e69fe849ad6511adfe6020610200a2005b63b01e369f600051141561070557604060046101403734156106a957600080fd5b60043560205181106106ba57600080fd5b5060243560205181106106cc57600080fd5b5060045433146106db57600080fd5b600654156106e857600080fd5b600554156106f557600080fd5b6101405160055561016051600655005b6318160ddd600051141561072b57341561071e57600080fd5b60075460005260206000f3005b63a9059cbb6000511415610806576040600461014037341561074c57600080fd5b600435602051811061075d57600080fd5b506000610140511861076e57600080fd5b60013360e05260c052604060c020610160518154101561078d57600080fd5b6101605181540381555060016101405160e05260c052604060c02080546101605182540110156107bc57600080fd5b61016051815401815550610160516101805261014051337fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef6020610180a3600160005260206000f3005b6323b872dd6000511415610941576060600461014037341561082757600080fd5b600435602051811061083857600080fd5b50602435602051811061084a57600080fd5b506000610140511861085b57600080fd5b6000610160511861086b57600080fd5b60016101405160e05260c052604060c020610180518154101561088d57600080fd5b6101805181540381555060016101605160e05260c052604060c02080546101805182540110156108bc57600080fd5b6101805181540181555060006101405160e05260c052604060c0203360e05260c052604060c02061018051815410156108f457600080fd5b61018051815403815550610180516101a05261016051610140517fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef60206101a0a3600160005260206000f3005b63313ce567600051141561096757341561095a57600080fd5b60025460005260206000f3005b6395d89b416000511415610a4a57341561098057600080fd5b60038060c052602060c020610180602082540161012060006002818352015b826101205160200211156109b2576109d4565b61012051850154610120516020028501525b815160010180835281141561099f575b5050505050506101805160206001820306601f82010390506101e0610180516003818352015b826101e0511115610a0a57610a26565b60006101e0516101a001535b81516001018083528114156109fa575b5050506020610160526040610180510160206001820306601f8201039050610160f3005b60006000fd5b61016b610bbb0361016b60003961016b610bbb036000f3`
+const MarketTokenBin = `0x740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a0526040610b366101403934156100a157600080fd5b6020610b3660c03960c05160205181106100ba57600080fd5b50336004556101605160016101405160e05260c052604060c0205560126002556003610180527f434d5400000000000000000000000000000000000000000000000000000000006101a05261018080600360c052602060c020602082510161012060006002818352015b8261012051602002111561013757610159565b61012051602002850151610120518501555b8151600101808352811415610124575b50505050505061016051600755610160516101e0526101405160007fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef60206101e0a3610b1e56600436101561000d57610978565b600035601c52740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a05263dd62ed3e60005114156101085734156100ba57600080fd5b60043560205181106100cb57600080fd5b5060243560205181106100dd57600080fd5b50600060043560e05260c052604060c02060243560e05260c052604060c0205460005260206000f350005b63095ea7b3600051141561019257341561012157600080fd5b600435602051811061013257600080fd5b5060243560003360e05260c052604060c02060043560e05260c052604060c0205560243561014052600435337f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b9256020610140a3600160005260206000f350005b6370a0823160005114156101d95734156101ab57600080fd5b60043560205181106101bc57600080fd5b50600160043560e05260c052604060c0205460005260206000f350005b63d4c1753960005114156102145734156101f257600080fd5b604061014052610160600554815260065481602001525061014051610160f350005b63b7bf210c600051141561025957341561022d57600080fd5b600435602051811061023e57600080fd5b5060065460043514600554600435141760005260206000f350005b6342966c6860005114156102f357341561027257600080fd5b600654331461028057600080fd5b60013360e05260c052604060c0206004358154101561029e57600080fd5b6004358154038155506007600435815410156102b957600080fd5b60043581540381555060043561014052337f696de425f79f4a40bc6d2122ca50507f0efbeabbff86a84871b7196ab8ea8df76020610140a2005b637e9d2ac160005114156103c457341561030c57600080fd5b600435602051811061031d57600080fd5b50600554331461032c57600080fd5b600160043560e05260c052604060c02054610140526007610140518154101561035457600080fd5b610140518154038155506000600160043560e05260c052604060c020556000600060043560e05260c052604060c0203360e05260c052604060c0205561014051610160526004357f696de425f79f4a40bc6d2122ca50507f0efbeabbff86a84871b7196ab8ea8df76020610160a2005b63a457c2d7600051141561047d5734156103dd57600080fd5b60043560205181106103ee57600080fd5b5060003360e05260c052604060c02060043560e05260c052604060c0206024358154101561041b57600080fd5b60243581540381555060003360e05260c052604060c02060043560e05260c052604060c0205461014052600435337f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b9256020610140a3600160005260206000f350005b6339509351600051141561053957341561049657600080fd5b60043560205181106104a757600080fd5b5060003360e05260c052604060c02060043560e05260c052604060c020805460243582540110156104d757600080fd5b60243581540181555060003360e05260c052604060c02060043560e05260c052604060c0205461014052600435337f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b9256020610140a3600160005260206000f350005b63a0712d6860005114156105df57341561055257600080fd5b600654331460055433141761056657600080fd5b60078054600435825401101561057b57600080fd5b60043581540181555060013360e05260c052604060c020805460043582540110156105a557600080fd5b60043581540181555060043561014052337f30385c845b448a36257a6a1716e6ad2e1bc2cbe333cde1e69fe849ad6511adfe6020610140a2005b63b01e369f60005114156106525734156105f857600080fd5b600435602051811061060957600080fd5b50602435602051811061061b57600080fd5b50600454331461062a57600080fd5b6005541561063757600080fd5b6006541561064457600080fd5b600435600555602435600655005b6318160ddd600051141561067957341561066b57600080fd5b60075460005260206000f350005b63a9059cbb600051141561074557341561069257600080fd5b60043560205181106106a357600080fd5b506000600435186106b357600080fd5b60013360e05260c052604060c020602435815410156106d157600080fd5b602435815403815550600160043560e05260c052604060c020805460243582540110156106fd57600080fd5b60243581540181555060243561014052600435337fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef6020610140a3600160005260206000f350005b6323b872dd600051141561086b57341561075e57600080fd5b600435602051811061076f57600080fd5b50602435602051811061078157600080fd5b5060006004351861079157600080fd5b6000602435186107a057600080fd5b600160043560e05260c052604060c020604435815410156107c057600080fd5b604435815403815550600160243560e05260c052604060c020805460443582540110156107ec57600080fd5b604435815401815550600060043560e05260c052604060c0203360e05260c052604060c0206044358154101561082157600080fd5b604435815403815550604435610140526024356004357fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef6020610140a3600160005260206000f350005b63313ce567600051141561089257341561088457600080fd5b60025460005260206000f350005b6395d89b4160005114156109775734156108ab57600080fd5b60038060c052602060c020610180602082540161012060006002818352015b826101205160200211156108dd576108ff565b61012051850154610120516020028501525b81516001018083528114156108ca575b5050505050506101805160206001820306601f82010390506101e0610180516020818352015b826101e05110151561093657610952565b60006101e0516101a001535b8151600101808352811415610925575b5050506020610160526040610180510160206001820306601f8201039050610160f350005b5b60006000fd5b6101a0610b1e036101a06000396101a0610b1e036000f3`
 
 // DeployMarketToken deploys a new Ethereum contract, binding an instance of MarketToken to it.
 func DeployMarketToken(auth *bind.TransactOpts, backend bind.ContractBackend, initial_account common.Address, initial_balance *big.Int) (common.Address, *types.Transaction, *MarketToken, error) {
@@ -178,7 +190,7 @@ func (_MarketToken *MarketTokenTransactorRaw) Transact(opts *bind.TransactOpts, 
 
 // Allowance is a free data retrieval call binding the contract method 0xdd62ed3e.
 //
-// Solidity: function allowance(owner address, spender address) constant returns(out uint256)
+// Solidity: function allowance(address owner, address spender) constant returns(uint256 out)
 func (_MarketToken *MarketTokenCaller) Allowance(opts *bind.CallOpts, owner common.Address, spender common.Address) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
@@ -190,21 +202,21 @@ func (_MarketToken *MarketTokenCaller) Allowance(opts *bind.CallOpts, owner comm
 
 // Allowance is a free data retrieval call binding the contract method 0xdd62ed3e.
 //
-// Solidity: function allowance(owner address, spender address) constant returns(out uint256)
+// Solidity: function allowance(address owner, address spender) constant returns(uint256 out)
 func (_MarketToken *MarketTokenSession) Allowance(owner common.Address, spender common.Address) (*big.Int, error) {
 	return _MarketToken.Contract.Allowance(&_MarketToken.CallOpts, owner, spender)
 }
 
 // Allowance is a free data retrieval call binding the contract method 0xdd62ed3e.
 //
-// Solidity: function allowance(owner address, spender address) constant returns(out uint256)
+// Solidity: function allowance(address owner, address spender) constant returns(uint256 out)
 func (_MarketToken *MarketTokenCallerSession) Allowance(owner common.Address, spender common.Address) (*big.Int, error) {
 	return _MarketToken.Contract.Allowance(&_MarketToken.CallOpts, owner, spender)
 }
 
 // BalanceOf is a free data retrieval call binding the contract method 0x70a08231.
 //
-// Solidity: function balanceOf(owner address) constant returns(out uint256)
+// Solidity: function balanceOf(address owner) constant returns(uint256 out)
 func (_MarketToken *MarketTokenCaller) BalanceOf(opts *bind.CallOpts, owner common.Address) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
@@ -216,21 +228,21 @@ func (_MarketToken *MarketTokenCaller) BalanceOf(opts *bind.CallOpts, owner comm
 
 // BalanceOf is a free data retrieval call binding the contract method 0x70a08231.
 //
-// Solidity: function balanceOf(owner address) constant returns(out uint256)
+// Solidity: function balanceOf(address owner) constant returns(uint256 out)
 func (_MarketToken *MarketTokenSession) BalanceOf(owner common.Address) (*big.Int, error) {
 	return _MarketToken.Contract.BalanceOf(&_MarketToken.CallOpts, owner)
 }
 
 // BalanceOf is a free data retrieval call binding the contract method 0x70a08231.
 //
-// Solidity: function balanceOf(owner address) constant returns(out uint256)
+// Solidity: function balanceOf(address owner) constant returns(uint256 out)
 func (_MarketToken *MarketTokenCallerSession) BalanceOf(owner common.Address) (*big.Int, error) {
 	return _MarketToken.Contract.BalanceOf(&_MarketToken.CallOpts, owner)
 }
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
-// Solidity: function decimals() constant returns(out uint256)
+// Solidity: function decimals() constant returns(uint256 out)
 func (_MarketToken *MarketTokenCaller) Decimals(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
@@ -242,21 +254,21 @@ func (_MarketToken *MarketTokenCaller) Decimals(opts *bind.CallOpts) (*big.Int, 
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
-// Solidity: function decimals() constant returns(out uint256)
+// Solidity: function decimals() constant returns(uint256 out)
 func (_MarketToken *MarketTokenSession) Decimals() (*big.Int, error) {
 	return _MarketToken.Contract.Decimals(&_MarketToken.CallOpts)
 }
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
-// Solidity: function decimals() constant returns(out uint256)
+// Solidity: function decimals() constant returns(uint256 out)
 func (_MarketToken *MarketTokenCallerSession) Decimals() (*big.Int, error) {
 	return _MarketToken.Contract.Decimals(&_MarketToken.CallOpts)
 }
 
 // GetPrivileged is a free data retrieval call binding the contract method 0xd4c17539.
 //
-// Solidity: function getPrivileged() constant returns(out address, out address)
+// Solidity: function getPrivileged() constant returns(address out, address out)
 func (_MarketToken *MarketTokenCaller) GetPrivileged(opts *bind.CallOpts) (common.Address, common.Address, error) {
 	var (
 		ret0 = new(common.Address)
@@ -272,21 +284,21 @@ func (_MarketToken *MarketTokenCaller) GetPrivileged(opts *bind.CallOpts) (commo
 
 // GetPrivileged is a free data retrieval call binding the contract method 0xd4c17539.
 //
-// Solidity: function getPrivileged() constant returns(out address, out address)
+// Solidity: function getPrivileged() constant returns(address out, address out)
 func (_MarketToken *MarketTokenSession) GetPrivileged() (common.Address, common.Address, error) {
 	return _MarketToken.Contract.GetPrivileged(&_MarketToken.CallOpts)
 }
 
 // GetPrivileged is a free data retrieval call binding the contract method 0xd4c17539.
 //
-// Solidity: function getPrivileged() constant returns(out address, out address)
+// Solidity: function getPrivileged() constant returns(address out, address out)
 func (_MarketToken *MarketTokenCallerSession) GetPrivileged() (common.Address, common.Address, error) {
 	return _MarketToken.Contract.GetPrivileged(&_MarketToken.CallOpts)
 }
 
 // HasPrivilege is a free data retrieval call binding the contract method 0xb7bf210c.
 //
-// Solidity: function hasPrivilege(sender address) constant returns(out bool)
+// Solidity: function hasPrivilege(address sender) constant returns(bool out)
 func (_MarketToken *MarketTokenCaller) HasPrivilege(opts *bind.CallOpts, sender common.Address) (bool, error) {
 	var (
 		ret0 = new(bool)
@@ -298,21 +310,21 @@ func (_MarketToken *MarketTokenCaller) HasPrivilege(opts *bind.CallOpts, sender 
 
 // HasPrivilege is a free data retrieval call binding the contract method 0xb7bf210c.
 //
-// Solidity: function hasPrivilege(sender address) constant returns(out bool)
+// Solidity: function hasPrivilege(address sender) constant returns(bool out)
 func (_MarketToken *MarketTokenSession) HasPrivilege(sender common.Address) (bool, error) {
 	return _MarketToken.Contract.HasPrivilege(&_MarketToken.CallOpts, sender)
 }
 
 // HasPrivilege is a free data retrieval call binding the contract method 0xb7bf210c.
 //
-// Solidity: function hasPrivilege(sender address) constant returns(out bool)
+// Solidity: function hasPrivilege(address sender) constant returns(bool out)
 func (_MarketToken *MarketTokenCallerSession) HasPrivilege(sender common.Address) (bool, error) {
 	return _MarketToken.Contract.HasPrivilege(&_MarketToken.CallOpts, sender)
 }
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
 //
-// Solidity: function symbol() constant returns(out string)
+// Solidity: function symbol() constant returns(string out)
 func (_MarketToken *MarketTokenCaller) Symbol(opts *bind.CallOpts) (string, error) {
 	var (
 		ret0 = new(string)
@@ -324,21 +336,21 @@ func (_MarketToken *MarketTokenCaller) Symbol(opts *bind.CallOpts) (string, erro
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
 //
-// Solidity: function symbol() constant returns(out string)
+// Solidity: function symbol() constant returns(string out)
 func (_MarketToken *MarketTokenSession) Symbol() (string, error) {
 	return _MarketToken.Contract.Symbol(&_MarketToken.CallOpts)
 }
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
 //
-// Solidity: function symbol() constant returns(out string)
+// Solidity: function symbol() constant returns(string out)
 func (_MarketToken *MarketTokenCallerSession) Symbol() (string, error) {
 	return _MarketToken.Contract.Symbol(&_MarketToken.CallOpts)
 }
 
 // TotalSupply is a free data retrieval call binding the contract method 0x18160ddd.
 //
-// Solidity: function totalSupply() constant returns(out uint256)
+// Solidity: function totalSupply() constant returns(uint256 out)
 func (_MarketToken *MarketTokenCaller) TotalSupply(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
@@ -350,203 +362,203 @@ func (_MarketToken *MarketTokenCaller) TotalSupply(opts *bind.CallOpts) (*big.In
 
 // TotalSupply is a free data retrieval call binding the contract method 0x18160ddd.
 //
-// Solidity: function totalSupply() constant returns(out uint256)
+// Solidity: function totalSupply() constant returns(uint256 out)
 func (_MarketToken *MarketTokenSession) TotalSupply() (*big.Int, error) {
 	return _MarketToken.Contract.TotalSupply(&_MarketToken.CallOpts)
 }
 
 // TotalSupply is a free data retrieval call binding the contract method 0x18160ddd.
 //
-// Solidity: function totalSupply() constant returns(out uint256)
+// Solidity: function totalSupply() constant returns(uint256 out)
 func (_MarketToken *MarketTokenCallerSession) TotalSupply() (*big.Int, error) {
 	return _MarketToken.Contract.TotalSupply(&_MarketToken.CallOpts)
 }
 
 // Approve is a paid mutator transaction binding the contract method 0x095ea7b3.
 //
-// Solidity: function approve(spender address, amount uint256) returns(out bool)
+// Solidity: function approve(address spender, uint256 amount) returns(bool out)
 func (_MarketToken *MarketTokenTransactor) Approve(opts *bind.TransactOpts, spender common.Address, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.contract.Transact(opts, "approve", spender, amount)
 }
 
 // Approve is a paid mutator transaction binding the contract method 0x095ea7b3.
 //
-// Solidity: function approve(spender address, amount uint256) returns(out bool)
+// Solidity: function approve(address spender, uint256 amount) returns(bool out)
 func (_MarketToken *MarketTokenSession) Approve(spender common.Address, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.Approve(&_MarketToken.TransactOpts, spender, amount)
 }
 
 // Approve is a paid mutator transaction binding the contract method 0x095ea7b3.
 //
-// Solidity: function approve(spender address, amount uint256) returns(out bool)
+// Solidity: function approve(address spender, uint256 amount) returns(bool out)
 func (_MarketToken *MarketTokenTransactorSession) Approve(spender common.Address, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.Approve(&_MarketToken.TransactOpts, spender, amount)
 }
 
 // Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
-// Solidity: function burn(amount uint256) returns()
+// Solidity: function burn(uint256 amount) returns()
 func (_MarketToken *MarketTokenTransactor) Burn(opts *bind.TransactOpts, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.contract.Transact(opts, "burn", amount)
 }
 
 // Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
-// Solidity: function burn(amount uint256) returns()
+// Solidity: function burn(uint256 amount) returns()
 func (_MarketToken *MarketTokenSession) Burn(amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.Burn(&_MarketToken.TransactOpts, amount)
 }
 
 // Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
-// Solidity: function burn(amount uint256) returns()
+// Solidity: function burn(uint256 amount) returns()
 func (_MarketToken *MarketTokenTransactorSession) Burn(amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.Burn(&_MarketToken.TransactOpts, amount)
 }
 
 // BurnAll is a paid mutator transaction binding the contract method 0x7e9d2ac1.
 //
-// Solidity: function burnAll(owner address) returns()
+// Solidity: function burnAll(address owner) returns()
 func (_MarketToken *MarketTokenTransactor) BurnAll(opts *bind.TransactOpts, owner common.Address) (*types.Transaction, error) {
 	return _MarketToken.contract.Transact(opts, "burnAll", owner)
 }
 
 // BurnAll is a paid mutator transaction binding the contract method 0x7e9d2ac1.
 //
-// Solidity: function burnAll(owner address) returns()
+// Solidity: function burnAll(address owner) returns()
 func (_MarketToken *MarketTokenSession) BurnAll(owner common.Address) (*types.Transaction, error) {
 	return _MarketToken.Contract.BurnAll(&_MarketToken.TransactOpts, owner)
 }
 
 // BurnAll is a paid mutator transaction binding the contract method 0x7e9d2ac1.
 //
-// Solidity: function burnAll(owner address) returns()
+// Solidity: function burnAll(address owner) returns()
 func (_MarketToken *MarketTokenTransactorSession) BurnAll(owner common.Address) (*types.Transaction, error) {
 	return _MarketToken.Contract.BurnAll(&_MarketToken.TransactOpts, owner)
 }
 
-// DecreaseApproval is a paid mutator transaction binding the contract method 0x66188463.
+// DecreaseAllowance is a paid mutator transaction binding the contract method 0xa457c2d7.
 //
-// Solidity: function decreaseApproval(spender address, amount uint256) returns()
-func (_MarketToken *MarketTokenTransactor) DecreaseApproval(opts *bind.TransactOpts, spender common.Address, amount *big.Int) (*types.Transaction, error) {
-	return _MarketToken.contract.Transact(opts, "decreaseApproval", spender, amount)
+// Solidity: function decreaseAllowance(address spender, uint256 amount) returns(bool out)
+func (_MarketToken *MarketTokenTransactor) DecreaseAllowance(opts *bind.TransactOpts, spender common.Address, amount *big.Int) (*types.Transaction, error) {
+	return _MarketToken.contract.Transact(opts, "decreaseAllowance", spender, amount)
 }
 
-// DecreaseApproval is a paid mutator transaction binding the contract method 0x66188463.
+// DecreaseAllowance is a paid mutator transaction binding the contract method 0xa457c2d7.
 //
-// Solidity: function decreaseApproval(spender address, amount uint256) returns()
-func (_MarketToken *MarketTokenSession) DecreaseApproval(spender common.Address, amount *big.Int) (*types.Transaction, error) {
-	return _MarketToken.Contract.DecreaseApproval(&_MarketToken.TransactOpts, spender, amount)
+// Solidity: function decreaseAllowance(address spender, uint256 amount) returns(bool out)
+func (_MarketToken *MarketTokenSession) DecreaseAllowance(spender common.Address, amount *big.Int) (*types.Transaction, error) {
+	return _MarketToken.Contract.DecreaseAllowance(&_MarketToken.TransactOpts, spender, amount)
 }
 
-// DecreaseApproval is a paid mutator transaction binding the contract method 0x66188463.
+// DecreaseAllowance is a paid mutator transaction binding the contract method 0xa457c2d7.
 //
-// Solidity: function decreaseApproval(spender address, amount uint256) returns()
-func (_MarketToken *MarketTokenTransactorSession) DecreaseApproval(spender common.Address, amount *big.Int) (*types.Transaction, error) {
-	return _MarketToken.Contract.DecreaseApproval(&_MarketToken.TransactOpts, spender, amount)
+// Solidity: function decreaseAllowance(address spender, uint256 amount) returns(bool out)
+func (_MarketToken *MarketTokenTransactorSession) DecreaseAllowance(spender common.Address, amount *big.Int) (*types.Transaction, error) {
+	return _MarketToken.Contract.DecreaseAllowance(&_MarketToken.TransactOpts, spender, amount)
 }
 
-// IncreaseApproval is a paid mutator transaction binding the contract method 0xd73dd623.
+// IncreaseAllowance is a paid mutator transaction binding the contract method 0x39509351.
 //
-// Solidity: function increaseApproval(spender address, amount uint256) returns()
-func (_MarketToken *MarketTokenTransactor) IncreaseApproval(opts *bind.TransactOpts, spender common.Address, amount *big.Int) (*types.Transaction, error) {
-	return _MarketToken.contract.Transact(opts, "increaseApproval", spender, amount)
+// Solidity: function increaseAllowance(address spender, uint256 amount) returns(bool out)
+func (_MarketToken *MarketTokenTransactor) IncreaseAllowance(opts *bind.TransactOpts, spender common.Address, amount *big.Int) (*types.Transaction, error) {
+	return _MarketToken.contract.Transact(opts, "increaseAllowance", spender, amount)
 }
 
-// IncreaseApproval is a paid mutator transaction binding the contract method 0xd73dd623.
+// IncreaseAllowance is a paid mutator transaction binding the contract method 0x39509351.
 //
-// Solidity: function increaseApproval(spender address, amount uint256) returns()
-func (_MarketToken *MarketTokenSession) IncreaseApproval(spender common.Address, amount *big.Int) (*types.Transaction, error) {
-	return _MarketToken.Contract.IncreaseApproval(&_MarketToken.TransactOpts, spender, amount)
+// Solidity: function increaseAllowance(address spender, uint256 amount) returns(bool out)
+func (_MarketToken *MarketTokenSession) IncreaseAllowance(spender common.Address, amount *big.Int) (*types.Transaction, error) {
+	return _MarketToken.Contract.IncreaseAllowance(&_MarketToken.TransactOpts, spender, amount)
 }
 
-// IncreaseApproval is a paid mutator transaction binding the contract method 0xd73dd623.
+// IncreaseAllowance is a paid mutator transaction binding the contract method 0x39509351.
 //
-// Solidity: function increaseApproval(spender address, amount uint256) returns()
-func (_MarketToken *MarketTokenTransactorSession) IncreaseApproval(spender common.Address, amount *big.Int) (*types.Transaction, error) {
-	return _MarketToken.Contract.IncreaseApproval(&_MarketToken.TransactOpts, spender, amount)
+// Solidity: function increaseAllowance(address spender, uint256 amount) returns(bool out)
+func (_MarketToken *MarketTokenTransactorSession) IncreaseAllowance(spender common.Address, amount *big.Int) (*types.Transaction, error) {
+	return _MarketToken.Contract.IncreaseAllowance(&_MarketToken.TransactOpts, spender, amount)
 }
 
 // Mint is a paid mutator transaction binding the contract method 0xa0712d68.
 //
-// Solidity: function mint(amount uint256) returns()
+// Solidity: function mint(uint256 amount) returns()
 func (_MarketToken *MarketTokenTransactor) Mint(opts *bind.TransactOpts, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.contract.Transact(opts, "mint", amount)
 }
 
 // Mint is a paid mutator transaction binding the contract method 0xa0712d68.
 //
-// Solidity: function mint(amount uint256) returns()
+// Solidity: function mint(uint256 amount) returns()
 func (_MarketToken *MarketTokenSession) Mint(amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.Mint(&_MarketToken.TransactOpts, amount)
 }
 
 // Mint is a paid mutator transaction binding the contract method 0xa0712d68.
 //
-// Solidity: function mint(amount uint256) returns()
+// Solidity: function mint(uint256 amount) returns()
 func (_MarketToken *MarketTokenTransactorSession) Mint(amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.Mint(&_MarketToken.TransactOpts, amount)
 }
 
 // SetPrivileged is a paid mutator transaction binding the contract method 0xb01e369f.
 //
-// Solidity: function setPrivileged(reserve address, listing address) returns()
+// Solidity: function setPrivileged(address reserve, address listing) returns()
 func (_MarketToken *MarketTokenTransactor) SetPrivileged(opts *bind.TransactOpts, reserve common.Address, listing common.Address) (*types.Transaction, error) {
 	return _MarketToken.contract.Transact(opts, "setPrivileged", reserve, listing)
 }
 
 // SetPrivileged is a paid mutator transaction binding the contract method 0xb01e369f.
 //
-// Solidity: function setPrivileged(reserve address, listing address) returns()
+// Solidity: function setPrivileged(address reserve, address listing) returns()
 func (_MarketToken *MarketTokenSession) SetPrivileged(reserve common.Address, listing common.Address) (*types.Transaction, error) {
 	return _MarketToken.Contract.SetPrivileged(&_MarketToken.TransactOpts, reserve, listing)
 }
 
 // SetPrivileged is a paid mutator transaction binding the contract method 0xb01e369f.
 //
-// Solidity: function setPrivileged(reserve address, listing address) returns()
+// Solidity: function setPrivileged(address reserve, address listing) returns()
 func (_MarketToken *MarketTokenTransactorSession) SetPrivileged(reserve common.Address, listing common.Address) (*types.Transaction, error) {
 	return _MarketToken.Contract.SetPrivileged(&_MarketToken.TransactOpts, reserve, listing)
 }
 
 // Transfer is a paid mutator transaction binding the contract method 0xa9059cbb.
 //
-// Solidity: function transfer(to address, amount uint256) returns(out bool)
+// Solidity: function transfer(address to, uint256 amount) returns(bool out)
 func (_MarketToken *MarketTokenTransactor) Transfer(opts *bind.TransactOpts, to common.Address, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.contract.Transact(opts, "transfer", to, amount)
 }
 
 // Transfer is a paid mutator transaction binding the contract method 0xa9059cbb.
 //
-// Solidity: function transfer(to address, amount uint256) returns(out bool)
+// Solidity: function transfer(address to, uint256 amount) returns(bool out)
 func (_MarketToken *MarketTokenSession) Transfer(to common.Address, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.Transfer(&_MarketToken.TransactOpts, to, amount)
 }
 
 // Transfer is a paid mutator transaction binding the contract method 0xa9059cbb.
 //
-// Solidity: function transfer(to address, amount uint256) returns(out bool)
+// Solidity: function transfer(address to, uint256 amount) returns(bool out)
 func (_MarketToken *MarketTokenTransactorSession) Transfer(to common.Address, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.Transfer(&_MarketToken.TransactOpts, to, amount)
 }
 
 // TransferFrom is a paid mutator transaction binding the contract method 0x23b872dd.
 //
-// Solidity: function transferFrom(source address, to address, amount uint256) returns(out bool)
+// Solidity: function transferFrom(address source, address to, uint256 amount) returns(bool out)
 func (_MarketToken *MarketTokenTransactor) TransferFrom(opts *bind.TransactOpts, source common.Address, to common.Address, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.contract.Transact(opts, "transferFrom", source, to, amount)
 }
 
 // TransferFrom is a paid mutator transaction binding the contract method 0x23b872dd.
 //
-// Solidity: function transferFrom(source address, to address, amount uint256) returns(out bool)
+// Solidity: function transferFrom(address source, address to, uint256 amount) returns(bool out)
 func (_MarketToken *MarketTokenSession) TransferFrom(source common.Address, to common.Address, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.TransferFrom(&_MarketToken.TransactOpts, source, to, amount)
 }
 
 // TransferFrom is a paid mutator transaction binding the contract method 0x23b872dd.
 //
-// Solidity: function transferFrom(source address, to address, amount uint256) returns(out bool)
+// Solidity: function transferFrom(address source, address to, uint256 amount) returns(bool out)
 func (_MarketToken *MarketTokenTransactorSession) TransferFrom(source common.Address, to common.Address, amount *big.Int) (*types.Transaction, error) {
 	return _MarketToken.Contract.TransferFrom(&_MarketToken.TransactOpts, source, to, amount)
 }
@@ -628,7 +640,7 @@ type MarketTokenApproval struct {
 
 // FilterApproval is a free log retrieval operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
 //
-// Solidity: e Approval(owner indexed address, spender indexed address, amount uint256)
+// Solidity: event Approval(address indexed owner, address indexed spender, uint256 amount)
 func (_MarketToken *MarketTokenFilterer) FilterApproval(opts *bind.FilterOpts, owner []common.Address, spender []common.Address) (*MarketTokenApprovalIterator, error) {
 
 	var ownerRule []interface{}
@@ -649,7 +661,7 @@ func (_MarketToken *MarketTokenFilterer) FilterApproval(opts *bind.FilterOpts, o
 
 // WatchApproval is a free log subscription operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
 //
-// Solidity: e Approval(owner indexed address, spender indexed address, amount uint256)
+// Solidity: event Approval(address indexed owner, address indexed spender, uint256 amount)
 func (_MarketToken *MarketTokenFilterer) WatchApproval(opts *bind.WatchOpts, sink chan<- *MarketTokenApproval, owner []common.Address, spender []common.Address) (event.Subscription, error) {
 
 	var ownerRule []interface{}
@@ -769,7 +781,7 @@ type MarketTokenBurned struct {
 
 // FilterBurned is a free log retrieval operation binding the contract event 0x696de425f79f4a40bc6d2122ca50507f0efbeabbff86a84871b7196ab8ea8df7.
 //
-// Solidity: e Burned(burner indexed address, amount uint256)
+// Solidity: event Burned(address indexed burner, uint256 amount)
 func (_MarketToken *MarketTokenFilterer) FilterBurned(opts *bind.FilterOpts, burner []common.Address) (*MarketTokenBurnedIterator, error) {
 
 	var burnerRule []interface{}
@@ -786,7 +798,7 @@ func (_MarketToken *MarketTokenFilterer) FilterBurned(opts *bind.FilterOpts, bur
 
 // WatchBurned is a free log subscription operation binding the contract event 0x696de425f79f4a40bc6d2122ca50507f0efbeabbff86a84871b7196ab8ea8df7.
 //
-// Solidity: e Burned(burner indexed address, amount uint256)
+// Solidity: event Burned(address indexed burner, uint256 amount)
 func (_MarketToken *MarketTokenFilterer) WatchBurned(opts *bind.WatchOpts, sink chan<- *MarketTokenBurned, burner []common.Address) (event.Subscription, error) {
 
 	var burnerRule []interface{}
@@ -902,7 +914,7 @@ type MarketTokenMinted struct {
 
 // FilterMinted is a free log retrieval operation binding the contract event 0x30385c845b448a36257a6a1716e6ad2e1bc2cbe333cde1e69fe849ad6511adfe.
 //
-// Solidity: e Minted(to indexed address, amount uint256)
+// Solidity: event Minted(address indexed to, uint256 amount)
 func (_MarketToken *MarketTokenFilterer) FilterMinted(opts *bind.FilterOpts, to []common.Address) (*MarketTokenMintedIterator, error) {
 
 	var toRule []interface{}
@@ -919,7 +931,7 @@ func (_MarketToken *MarketTokenFilterer) FilterMinted(opts *bind.FilterOpts, to 
 
 // WatchMinted is a free log subscription operation binding the contract event 0x30385c845b448a36257a6a1716e6ad2e1bc2cbe333cde1e69fe849ad6511adfe.
 //
-// Solidity: e Minted(to indexed address, amount uint256)
+// Solidity: event Minted(address indexed to, uint256 amount)
 func (_MarketToken *MarketTokenFilterer) WatchMinted(opts *bind.WatchOpts, sink chan<- *MarketTokenMinted, to []common.Address) (event.Subscription, error) {
 
 	var toRule []interface{}
@@ -1036,7 +1048,7 @@ type MarketTokenTransfer struct {
 
 // FilterTransfer is a free log retrieval operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
 //
-// Solidity: e Transfer(source indexed address, to indexed address, amount uint256)
+// Solidity: event Transfer(address indexed source, address indexed to, uint256 amount)
 func (_MarketToken *MarketTokenFilterer) FilterTransfer(opts *bind.FilterOpts, source []common.Address, to []common.Address) (*MarketTokenTransferIterator, error) {
 
 	var sourceRule []interface{}
@@ -1057,7 +1069,7 @@ func (_MarketToken *MarketTokenFilterer) FilterTransfer(opts *bind.FilterOpts, s
 
 // WatchTransfer is a free log subscription operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
 //
-// Solidity: e Transfer(source indexed address, to indexed address, amount uint256)
+// Solidity: event Transfer(address indexed source, address indexed to, uint256 amount)
 func (_MarketToken *MarketTokenFilterer) WatchTransfer(opts *bind.WatchOpts, sink chan<- *MarketTokenTransfer, source []common.Address, to []common.Address) (event.Subscription, error) {
 
 	var sourceRule []interface{}

@@ -24,6 +24,7 @@ def __init__(initial_account: address, initial_balance: wei_value):
   self.decimals = 18
   self.symbol = "CMT"
   self.supply = initial_balance
+  log.Transfer(ZERO_ADDRESS, initial_account, initial_balance)
 
 
 @public
@@ -91,7 +92,8 @@ def burn(amount: wei_value):
   @dev We only allow the market contract to call burn
   @param amount The amount to burn
   """
-  assert self.hasPrivilege(msg.sender)
+  # only the listing may call burn
+  assert msg.sender == self.listing_address
   self.balances[msg.sender] -= amount
   self.supply -= amount
   log.Burned(msg.sender, amount)
@@ -104,7 +106,8 @@ def burnAll(owner: address):
   @dev We only allow the market contract to call burnAll
   @param address The owner of the tokens being burnt
   """
-  assert self.hasPrivilege(msg.sender)
+  # only the reserve may call burn all
+  assert msg.sender == self.reserve_address
   bal: wei_value = self.balances[owner]
   self.supply -= bal
   clear(self.balances[owner])
@@ -113,26 +116,30 @@ def burnAll(owner: address):
 
 
 @public
-def decreaseApproval(spender: address, amount: wei_value):
+def decreaseAllowance(spender: address, amount: wei_value) -> bool:
   """
   @notice Decrement the amount allowed to a spender by the given amount
   @dev If the given amount is > the actual allowance we set it to 0
   @param spender The spender of the funds
   @param amount The amount to decrease a previous allowance by
+  @return True if successful
   """
   self.allowances[msg.sender][spender] -= amount
   log.Approval(msg.sender, spender, self.allowances[msg.sender][spender])
+  return True
 
 
 @public
-def increaseApproval(spender: address, amount: wei_value):
+def increaseAllowance(spender: address, amount: wei_value) -> bool:
   """
   @notice Increase the amount a spender has allotted to them, by the owner, by the given amount
   @param spender The address whose allowance to increase
   @param amount The amount to increase by
+  return True if successful
   """
   self.allowances[msg.sender][spender] += amount
   log.Approval(msg.sender, spender, self.allowances[msg.sender][spender])
+  return True
 
 
 @public
@@ -141,13 +148,15 @@ def mint(amount: wei_value):
   @notice Create new Market Token funds and add them to the Market Contract balance
   @dev We only allow the Market Contract to call for minting
   """
-  assert self.hasPrivilege(msg.sender)
+  # either may call mint
+  assert msg.sender == self.reserve_address or msg.sender == self.listing_address
   self.supply += amount
   self.balances[msg.sender] += amount
   log.Minted(msg.sender, amount)
   # TODO look at implementing a mintFor method to avoid mint followed by immediate transfer
 
 
+# TODO look into the @noreentrant decorator
 @public
 def setPrivileged(reserve: address, listing: address):
   """
@@ -157,8 +166,8 @@ def setPrivileged(reserve: address, listing: address):
   @param listing The deployed address of the Listing Contract
   """
   assert msg.sender == self.owner_address
-  assert self.listing_address == ZERO_ADDRESS
   assert self.reserve_address == ZERO_ADDRESS
+  assert self.listing_address == ZERO_ADDRESS
   self.reserve_address = reserve
   self.listing_address = listing
 
