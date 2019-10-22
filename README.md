@@ -12,3 +12,13 @@ Once a version has been _frozen_, audited and deployed we will update this repo 
 
 Any (d)app created on top of the Computable Protocol may want to consider utilizing one of our "Higher-Order-Contract" libraries. Python
 developers, for example, could use [Computable.py](https://github.com/computablelabs/computable.py).
+
+## The Computable Book
+
+To learn more about the Computable protocol, check out the [Computable book](https://computablelabs.github.io/compspec/) which provides a book-length introduction to the core Computable protocol.
+
+## Getting Help
+
+If you're having trouble using this library, log into the
+[Computable discord server](https://discord.gg/3mFF8zy). Members of the
+development team hang out there and might be able to help with your questions.
